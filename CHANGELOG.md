@@ -14,6 +14,8 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 - Document the frozen `exact_match` numeric tolerance and scope historical timing
   figures by their date/environment. Numerical scoring semantics are unchanged.
 - Preserve 1.0.0 history and document its resource-replay verification gap.
+- Validate both frozen float-sum certificate profiles across Python versions;
+  allow only the two named Windows launcher skips on Linux/macOS.
 
 ## [1.0.0] - 2026-10-21
 

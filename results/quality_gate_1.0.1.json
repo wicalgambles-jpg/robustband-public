@@ -5,11 +5,12 @@
   "platform": "Windows-11-10.0.22631-SP0",
   "python": "3.13.0",
   "tests": {
-    "tests": 397,
+    "tests": 399,
     "failures": 0,
     "errors": 0,
     "skipped": 0
   },
+  "expected_platform_skips": [],
   "coverage": {
     "covered_lines": 2312,
     "num_statements": 2312,
@@ -19,6 +20,11 @@
     "excluded_lines": 0,
     "percent_statements_covered": 100.0,
     "percent_statements_covered_display": "100"
+  },
+  "tooling_certificate": {
+    "path": "results/tooling_certificate.json",
+    "sha256_lf": "b58b3f980691a0df073d9cda71b87fb0bf36c700c13d41ebf1f7111961d6e75b",
+    "float_sum_profile": "compensated"
   },
   "executed_commands": [
     {
@@ -177,6 +183,7 @@
     "tests/test_pages_consistency.py": "ab9b40bedb6ad05455e0da395201bf704abf5aedcfa7e8d7aebc090c6de4471a",
     "tests/test_rational.py": "40b1085e73a5a6f4555ab2d2a258bd5c4be4186dd5392fb2b8d1fc005336b4a3",
     "tests/test_receipt_bytes.py": "6cff74e082f7635587ae5fe313097b4b79f3f6ed778a1061ea59f46a0352d25f",
+    "tests/test_release_gate.py": "0299502b7f7d2dcbecb451bb61f4fa79fd3a1f4563bda4fbff6cda3096c1793f",
     "tests/test_report_style.py": "466b2a8ecc173d3a19472992420c07792d43505c50190b4802b4de8c17de7774",
     "tests/test_resource_grid.py": "c08322ec517a519762f74d880e343518944a7e50b6c02715318fe01f5496d54c",
     "tests/test_review.py": "64749854c8557911bfe82e5329675a5b1d0341cddebdd8c2970f67f5ae4bf4c9",
@@ -187,6 +194,7 @@
     "tests/test_workflow.py": "710ef837f3eaac389224595cf59ba1f0bfd5914d1c94ffad930d380522b12eb4",
     "demo/analyze_real.py": "05af89717154de91deeb1f53a59fe91a30ca28f643d7752a06821233ceddca77",
     "demo/analyze_score_band.py": "2b7689307a95f018b353bf219b856252ff48ca0efd91bb2242451ca9fb3e7f24",
+    "demo/certificate_runtime.py": "c4443fd6271d94c73070ac54d55e0a06f4463b9e00864ce809e3334916da4e0d",
     "demo/demo_real.py": "ac80a153fb038a60dbac3182ce069ee28408c9ad96c4f02bef7ad6eafced1a3c",
     "demo/e_reproduce.py": "41f7082e5023017e3da917846ee1d6aa4e9bd2e6d0486a235988e4c2d70840cf",
     "demo/emodule_bundle.py": "c249da927bc5699535babae26b8653c16b8d290e2a00671a78b8f67b60c23ca7",
@@ -196,9 +204,9 @@
     "demo/prep_data.py": "cdbe467fa462a8b68ebaa93ca93f7f818886aeac597158ced0a94c93ed8eee6c",
     "demo/ref_impl.py": "f9f09274505b6b858e6919c358a2fbc314ba49c05d2f2fece045f307b69d6e16",
     "demo/synth_selftest.py": "8dd6a20d2bcceac75c1cf66588608c33f6c4d1ed14dfa3c5a1b1ee5fd1fedfef",
-    "demo/tooling_certificate.py": "6263818cd29aafa7ea108ff2d3e8daf6e931f64be291fd2194d1680cf1540d37",
+    "demo/tooling_certificate.py": "31399b78c94eb28bfe5c657e9e7e200d0c26ddf1111aea1f077904f3c8871840",
     "demo/verify_certificate.py": "be0220557a7218d1ace3d3ee59ba86a834000ccced1ef8c0d5c4f9856cf5910c",
-    "demo/verify_tooling_certificate.py": "2d4d3754737cb1e104ad0b92f4dfece957c81f032225ae38f399d8aead7f1bb2",
+    "demo/verify_tooling_certificate.py": "d16cb26182537839dcb11c1dadc179fc2eb79049c03a8aec891ea4b7502d2451",
     "examples/band_gate.py": "b3aa4cea25f74c4e0ccca363085a73952ef74e39fc65fb51c090ea9b8dc0cb73",
     "examples/measurement_lab.py": "3bc724b1f9e5e6771ad33abe963e61dbdd1eeea7da9105b07d980e72c90190d3",
     "examples/prepare_segmentation_npz.py": "59d8cb084567d55da2cf5b73babeab4d247f97c77a1b7f253f9cfd0efeed6a85",
@@ -217,7 +225,7 @@
     "docs/build_api_docs.py": "e7fe43e59d1812f79d880a3c5601d78dc46e9c5b2a6573b83fbe19d1703808db",
     "submission/build_portable.py": "d12e9eb07fa2dbfde51b2d5622ba0ed0f7268cf21472b918031c9141e1b11f6a",
     "submission/build_welcome.py": "cb583109acdb552d2b398ce0eb3a7f96e42ebf3071654bafa3a0f6bd0f9cbb20",
-    "submission/check_quality.py": "9519d662fc00a72ed9478cdbdc83532e3f59e35c523372ae9a88771c54b68752",
+    "submission/check_quality.py": "60551570e1307b1a4a6505bc42c4188938b26ceb106d835fe96f1b7aa1e99eea",
     "submission/portable_entry.py": "acace887c27e7567a3f997f383320d0a37faebbdd60f421fe41cdfc36b242a3e",
     "submission/prepare_public_snapshot.py": "f5311bf098244a778c48e79460a9f9232c7d897b64172b630cf8cfa437efd65a",
     "submission/verify_portable.py": "e737a6ee987fc8d770baa6566d63f1c88bed5a57bde5a9e218c45fe22e5ca00e",

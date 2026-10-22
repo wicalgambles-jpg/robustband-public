@@ -20,6 +20,8 @@ import sys
 import json
 import random
 import hashlib
+import platform
+from certificate_runtime import certificate_path, float_sum_profile
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, ROOT)
@@ -292,7 +294,9 @@ def main():
     print("=" * 74)
 
     cert = {
-        "schema": "robustband.tooling_certificate/v2",
+        "schema": "robustband.tooling_certificate/v3",
+        "float_sum_profile": float_sum_profile(),
+        "generated_python": platform.python_version(),
         "robustband_version": rb.__version__,
         "data_sources": sources,
         "claim": {"kind": claim.kind, "better": claim.better, "worse": claim.worse, "name": claim.name},
@@ -311,7 +315,7 @@ def main():
         },
     }
     os.makedirs(RESULTS, exist_ok=True)
-    op = os.path.join(RESULTS, "tooling_certificate.json")
+    op = certificate_path(ROOT)
     with open(op, "w", encoding="utf-8", newline="\n") as f:
         json.dump(cert, f, ensure_ascii=False, indent=2)
     print(f"[written] {op}")

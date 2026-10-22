@@ -259,7 +259,7 @@ most `1e-9`; `numeric_tol` uses its declared tolerance (default `1e-3`). Reporte
 ## The certificate (four bound layers)
 
 `demo/tooling_certificate.py` emits a single machine-readable JSON artifact
-(`results/tooling_certificate.json`, schema `robustband.tooling_certificate/v2`) that
+(`results/tooling_certificate.json`, schema `robustband.tooling_certificate/v3`) that
 binds four layers:
 
 | layer | content |
@@ -274,13 +274,20 @@ The certificate is **recomputed from hashed input files** (V-source, V0–V8) by
 it checks every layer, including the 1319-item score band. The main score band is also
 checked with a separate reference implementation; bootstrap checks still share the engine.
 Input hashes normalize CRLF to LF so the same text verifies on Windows and Unix.
+Schema v3 records the floating summation profile: Python 3.9/3.11 use the
+sequential snapshot `results/tooling_certificate_sequential.json`; Python 3.12+
+uses the compensated snapshot `results/tooling_certificate.json`. The verifier
+detects the sum behavior and strictly replays the corresponding frozen artifact.
+Near-zero bootstrap margins differ between these profiles; see
+[the 1.0.1 evidence](docs/release_1.0.1.md). Exact rational endpoints are checked
+separately.
 The repository ships the frozen model outputs for rescoring; it does not currently pin
 the model revision and full generation environment needed to reproduce those outputs.
 Dataset and model attribution is recorded in `THIRD_PARTY_NOTICES.md`.
 
 ```bash
 cd demo
-python tooling_certificate.py          # writes ../results/tooling_certificate.json
+python tooling_certificate.py          # writes the runtime's matching certificate
 python verify_tooling_certificate.py   # re-derives V-source and V0..V8; prints [VERIFY PASS] (exit 0)
 ```
 

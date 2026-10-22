@@ -23,7 +23,7 @@ and CRLF trees and compares both complete grids with the committed receipt.
 - Every OS/Python CI test job executes the complete `check_quality.py` gate,
   including resource replay and the real-input newline matrix. Logs and receipts
   are retained as job artifacts.
-- Local execution passed 397 tests with 2,312/2,312 package statements covered.
+- Local execution passed 399 tests with 2,312/2,312 package statements covered.
   The supplied separate core/workflow scripts were rerun from copies with only
   repository/output paths changed: 99 and 581 checks passed. Original scripts
   and evidence were retained in their original locations.
@@ -33,6 +33,20 @@ and CRLF trees and compares both complete grids with the committed receipt.
 - The existing `exact_match` tolerance is documented in
   [metric semantics](metric_semantics.md); performance figures are labeled with
   their historical date/environment.
+
+Running the complete gate also exposed two assumptions in its orchestration.
+Linux/macOS now permit exactly two named `cmd.exe` launcher tests to be skipped;
+those tests run on Windows. Every other skip or test failure is rejected.
+
+Python 3.12 changed built-in float summation. For the historical floating-point
+bootstrap, identical sample indices yield strict sign-flip frequencies 0.6880
+with sequential sum and 0.6855 with compensated sum because some margins are
+near zero. Two frozen v3 tooling certificates record the observed sum profile
+and generating Python version. The verifier selects the matching committed
+certificate and rechecks all fields, including bootstrap counts and subfamilies.
+It does not regenerate a failing certificate or accept a range of frequencies.
+These are distinct floating-point results; exact rational endpoint verification
+continues separately, and the package's frozen aggregators remain unchanged.
 
 The 1.0.0 tag and historical receipts are preserved. The
 [corrected 1.0.0 assessment](release_1.0.0.md) identifies the earlier verification

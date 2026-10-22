@@ -39,6 +39,7 @@ jobs:
       - name: Run the complete release-quality gate from the checkout
         run: python submission/check_quality.py
       - name: Keep quality and newline-portability evidence
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: quality-${{ matrix.os }}-py${{ matrix.python-version }}

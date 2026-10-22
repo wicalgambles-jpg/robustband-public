@@ -1,5 +1,7 @@
 {
-  "schema": "robustband.tooling_certificate/v2",
+  "schema": "robustband.tooling_certificate/v3",
+  "float_sum_profile": "compensated",
+  "generated_python": "3.13.0",
   "robustband_version": "1.0.1",
   "data_sources": {
     "items": {

@@ -20,6 +20,7 @@ sys.path.insert(0, str(ROOT))
 
 from robustband import __version__  # noqa: E402
 from robustband.storage import write_json_atomic
+from demo.certificate_runtime import certificate_path, float_sum_profile
 
 
 def digest(path):
@@ -31,6 +32,28 @@ def newest_semantics():
     files = list((ROOT / "experiments").glob("scoring_semantics_*.json"))
     assert files, "no frozen scoring-semantics record"
     return max(files, key=lambda path: [int(part) for part in re.findall(r"\d+", path.stem)])
+
+
+def check_test_results(suite, platform_name):
+    """Reject failures and skips except the two actual cmd.exe tests off Windows."""
+    counts = {key: int(suite.get(key)) for key in ("tests", "failures", "errors", "skipped")}
+    assert counts["tests"] > 0 and counts["failures"] == counts["errors"] == 0, counts
+    allowed = set() if platform_name == "win32" else {
+        "test_detector_finds_an_interpreter_and_propagates_it",
+        "test_a_bad_override_falls_through_to_a_working_interpreter",
+    }
+    skipped = []
+    for case in suite.findall("testcase"):
+        skip = case.find("skipped")
+        if skip is not None:
+            assert (case.get("classname") == "tests.test_launchers"
+                    and case.get("name") in allowed
+                    and skip.get("message") == "cmd.exe launchers"), ET.tostring(case)
+            skipped.append({"classname": case.get("classname"), "name": case.get("name"),
+                            "reason": skip.get("message")})
+    assert len(skipped) == counts["skipped"] == len(allowed), counts
+    assert {case["name"] for case in skipped} == allowed, skipped
+    return counts, skipped
 
 
 def main():
@@ -59,8 +82,7 @@ def main():
         assert process.returncode == 0, (args, process.stdout.decode("utf-8", "replace")[-3000:])
     xml = ET.parse(build / "pytest.xml").getroot()
     suite = xml.find("testsuite")
-    counts = {key: int(suite.get(key)) for key in ("tests", "failures", "errors", "skipped")}
-    assert counts["tests"] > 0 and counts["failures"] == counts["errors"] == counts["skipped"] == 0, counts
+    counts, skipped = check_test_results(suite, sys.platform)
     coverage = json.loads((build / "coverage.json").read_text(encoding="utf-8"))["totals"]
     assert coverage["num_statements"] > 0
     assert coverage["num_statements"] == coverage["covered_lines"] and coverage["missing_lines"] == 0, coverage
@@ -74,7 +96,10 @@ def main():
     assert all(digest(ROOT / path) == expected for path, expected in semantics["source_sha256_lf"].items())
     report = {"schema": "robustband.quality_gate/v1", "version": __version__, "date": date.today().isoformat(),
               "platform": platform.platform(), "python": platform.python_version(),
-              "tests": counts, "coverage": coverage,
+              "tests": counts, "expected_platform_skips": skipped, "coverage": coverage,
+              "tooling_certificate": {"path": certificate_path(ROOT).relative_to(ROOT).as_posix(),
+                                      "sha256_lf": digest(certificate_path(ROOT)),
+                                      "float_sum_profile": float_sum_profile()},
               "executed_commands": [{"python_args": args, "exit_code": 0} for args in commands],
               "all_python_sources_have_first_line_spdx": True,
               "scoring_semantics_record": semantics_path.name,

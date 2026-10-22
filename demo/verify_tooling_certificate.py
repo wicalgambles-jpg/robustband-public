@@ -21,6 +21,7 @@ import json
 import random
 import hashlib
 from fractions import Fraction as F
+from certificate_runtime import certificate_path, float_sum_profile
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, ROOT)
@@ -41,7 +42,7 @@ from ref_impl import ref_evaluate, ref_score_table  # noqa: E402
 HERE = os.path.dirname(os.path.abspath(__file__))
 DATA = os.path.join(HERE, "data")
 DATA_REAL = os.path.join(HERE, "data_real")
-CERT = os.path.join(ROOT, "results", "tooling_certificate.json")
+CERT = certificate_path(ROOT)
 
 DEFAULT = "strict_exact|exact_match|micro"
 SOURCE_FILES = {
@@ -95,7 +96,9 @@ def main():
     cert = json.load(open(CERT, encoding="utf-8"))
     fails = []
 
-    vsource = (cert.get("schema") == "robustband.tooling_certificate/v2"
+    print(f"Frozen float certificate: {CERT} ({float_sum_profile()})")
+    vsource = (cert.get("schema") == "robustband.tooling_certificate/v3"
+               and cert.get("float_sum_profile") == float_sum_profile()
                and cert.get("robustband_version") == rb.__version__
                and verify_sources(cert))
     print(f"V-source 数据哈希、行数和题目对齐={vsource} -> {'PASS' if vsource else 'FAIL'}")
