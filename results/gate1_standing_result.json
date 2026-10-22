@@ -1,0 +1,284 @@
+{
+  "G1-1": {
+    "n": 1319,
+    "model": "Qwen2.5-0.5B-Instruct",
+    "score_min": 0.0,
+    "score_max": 0.4715693707354056,
+    "width": 0.4715693707354056,
+    "ratio": Infinity,
+    "n_distinct_scores": 37,
+    "n_configs": 80,
+    "by_parse": {
+      "strict_exact": [
+        0.0,
+        0.4715693707354056
+      ],
+      "first_num": [
+        0,
+        0.023735295166842228
+      ],
+      "last_num": [
+        0,
+        0.35633055344958303
+      ],
+      "last_line_num": [
+        0,
+        0.3214556482183472
+      ],
+      "boxed": [
+        0,
+        0.35784685367702807
+      ]
+    },
+    "by_metric": {
+      "exact_match": [
+        0.0,
+        0.33131159969673996
+      ],
+      "contains": [
+        0,
+        0.4715693707354056
+      ],
+      "f1_token": [
+        0.0,
+        0.3244882486732373
+      ],
+      "numeric_tol": [
+        0.0,
+        0.33131159969673996
+      ]
+    },
+    "by_agg": {
+      "micro": [
+        0.0,
+        0.4715693707354056
+      ],
+      "macro_class": [
+        0.0,
+        0.3750104213200181
+      ],
+      "macro_len": [
+        0.0,
+        0.4488074220272062
+      ],
+      "median": [
+        0,
+        0
+      ]
+    },
+    "score_min_arg": "strict_exact|exact_match|micro",
+    "score_max_arg": "strict_exact|contains|micro",
+    "G1-1_pass": true
+  },
+  "G1-2": {
+    "n_items": 24,
+    "B": 2000,
+    "seed": 20261001,
+    "baseline_delta": [
+      -0.04166666666666666,
+      0.065
+    ],
+    "baseline_stability": 0.3125,
+    "baseline_verdict": "UNIDENTIFIABLE",
+    "P_unidentifiable": 1.0,
+    "P_signflip": 0.6855,
+    "stab_mean": 0.25175,
+    "stab_min": 0.0,
+    "stab_max": 0.6,
+    "lo_mean": -0.23153582654610325,
+    "hi_mean": 0.1255567847512323,
+    "lo_max": 0.0,
+    "hi_min": 0.0,
+    "G1-2_pass": true
+  },
+  "G1-3": {
+    "n_items": 24,
+    "full_delta": [
+      -0.04166666666666666,
+      0.065
+    ],
+    "full_verdict": "UNIDENTIFIABLE",
+    "n_leave_one": 13,
+    "all_contain0": true,
+    "leave_one": {
+      "parse:strict_exact": {
+        "n_configs": 64,
+        "delta": [
+          -0.04166666666666666,
+          0.065
+        ],
+        "verdict": "UNIDENTIFIABLE",
+        "contains0": true,
+        "stability": 0.375
+      },
+      "parse:first_num": {
+        "n_configs": 64,
+        "delta": [
+          -0.04166666666666666,
+          0.065
+        ],
+        "verdict": "UNIDENTIFIABLE",
+        "contains0": true,
+        "stability": 0.390625
+      },
+      "parse:last_num": {
+        "n_configs": 64,
+        "delta": [
+          -0.04166666666666666,
+          0.065
+        ],
+        "verdict": "UNIDENTIFIABLE",
+        "contains0": true,
+        "stability": 0.265625
+      },
+      "parse:last_line_num": {
+        "n_configs": 64,
+        "delta": [
+          -0.04166666666666663,
+          0.02243589743589744
+        ],
+        "verdict": "UNIDENTIFIABLE",
+        "contains0": true,
+        "stability": 0.265625
+      },
+      "parse:boxed": {
+        "n_configs": 64,
+        "delta": [
+          -0.04166666666666666,
+          0.065
+        ],
+        "verdict": "UNIDENTIFIABLE",
+        "contains0": true,
+        "stability": 0.265625
+      },
+      "metric:exact_match": {
+        "n_configs": 60,
+        "delta": [
+          -0.04166666666666666,
+          0.065
+        ],
+        "verdict": "UNIDENTIFIABLE",
+        "contains0": true,
+        "stability": 0.31666666666666665
+      },
+      "metric:contains": {
+        "n_configs": 60,
+        "delta": [
+          -0.04166666666666666,
+          0.065
+        ],
+        "verdict": "UNIDENTIFIABLE",
+        "contains0": true,
+        "stability": 0.30000000000000004
+      },
+      "metric:f1_token": {
+        "n_configs": 60,
+        "delta": [
+          -0.04166666666666666,
+          0.065
+        ],
+        "verdict": "UNIDENTIFIABLE",
+        "contains0": true,
+        "stability": 0.31666666666666665
+      },
+      "metric:numeric_tol": {
+        "n_configs": 60,
+        "delta": [
+          -0.04166666666666666,
+          0.065
+        ],
+        "verdict": "UNIDENTIFIABLE",
+        "contains0": true,
+        "stability": 0.31666666666666665
+      },
+      "agg:micro": {
+        "n_configs": 60,
+        "delta": [
+          -0.04166666666666666,
+          0.065
+        ],
+        "verdict": "UNIDENTIFIABLE",
+        "contains0": true,
+        "stability": 0.35
+      },
+      "agg:macro_class": {
+        "n_configs": 60,
+        "delta": [
+          -0.04166666666666666,
+          0.04166666666666667
+        ],
+        "verdict": "UNIDENTIFIABLE",
+        "contains0": true,
+        "stability": 0.21666666666666667
+      },
+      "agg:macro_len": {
+        "n_configs": 60,
+        "delta": [
+          -0.04166666666666663,
+          0.065
+        ],
+        "verdict": "UNIDENTIFIABLE",
+        "contains0": true,
+        "stability": 0.2666666666666667
+      },
+      "agg:median": {
+        "n_configs": 60,
+        "delta": [
+          -0.04166666666666666,
+          0.065
+        ],
+        "verdict": "UNIDENTIFIABLE",
+        "contains0": true,
+        "stability": 0.41666666666666663
+      }
+    },
+    "single_axis": {
+      "parse": {
+        "n_configs": 5,
+        "delta": [
+          0.0,
+          0.04166666666666667
+        ],
+        "verdict": "UNIDENTIFIABLE",
+        "margins": {
+          "strict_exact|exact_match|micro": 0.0,
+          "first_num|exact_match|micro": 0.0,
+          "last_num|exact_match|micro": 0.0,
+          "last_line_num|exact_match|micro": 0.04166666666666667,
+          "boxed|exact_match|micro": 0.0
+        }
+      },
+      "metric": {
+        "n_configs": 4,
+        "delta": [
+          -0.04166666666666663,
+          0.0
+        ],
+        "verdict": "REFUTED",
+        "margins": {
+          "strict_exact|exact_match|micro": 0.0,
+          "strict_exact|contains|micro": -0.04166666666666663,
+          "strict_exact|f1_token|micro": 0.0,
+          "strict_exact|numeric_tol|micro": 0.0
+        }
+      },
+      "agg": {
+        "n_configs": 4,
+        "delta": [
+          0.0,
+          0.0
+        ],
+        "verdict": "REFUTED",
+        "margins": {
+          "strict_exact|exact_match|micro": 0.0,
+          "strict_exact|exact_match|macro_class": 0.0,
+          "strict_exact|exact_match|macro_len": 0.0,
+          "strict_exact|exact_match|median": 0.0
+        }
+      }
+    },
+    "G1-3_pass": true
+  },
+  "gate1_standing": true,
+  "judgment": "PASS"
+}

@@ -1,0 +1,25 @@
+# Copy into your project's .github/workflows after supplying the referenced files.
+# The wheel is an explicit offline dependency; paired.csv and plan.json are yours.
+name: Candidate adoption criteria
+on: [push, pull_request]
+permissions:
+  contents: read
+jobs:
+  adoption:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install supplied wheel
+        run: python -m pip install --no-index --no-deps vendor/robustband-0.9.0-py3-none-any.whl
+      - name: Check fixed adoption criteria
+        run: python -m robustband decision evaluation/paired.csv --plan evaluation/plan.json --output audit-results --require-pass
+      - name: Keep the report even when criteria fail
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: adoption-report
+          path: audit-results/
+          if-no-files-found: warn

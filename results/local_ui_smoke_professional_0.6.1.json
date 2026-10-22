@@ -1,0 +1,55 @@
+{
+  "schema": "robustband.browser_smoke/v1",
+  "software_version": "0.6.1",
+  "platform": "win32",
+  "browser": "Edg/148.0.3967.54",
+  "edition": "professional",
+  "editable_extension": false,
+  "checked": [
+    "example exact band",
+    "CSV example",
+    "JSONL upload",
+    "Unicode and HTML escaping",
+    "explicit macro grouping",
+    "duplicate-ID rejection",
+    "stale result invalidation",
+    "HTML/JSON downloads",
+    "language switch",
+    "desktop and mobile layout",
+    "professional domain isolation",
+    "purpose and data-kind entry",
+    "advanced rules start collapsed",
+    "plain-language result and example label",
+    "template-to-upload next step",
+    "actionable duplicate-ID guidance",
+    "keyboard help dialog",
+    "drag-and-drop upload"
+  ],
+  "example_exact_band": [
+    "-1",
+    "1"
+  ],
+  "script_exceptions": [],
+  "independent_human_user": false,
+  "source_sha256": {
+    "robustband/ui.html": "44343ec3bc493a128eb0faf6c5edd1b73efed5ca5c4be4c4d24dbfc2d42ae81c",
+    "experiments/ui_browser_smoke.cjs": "97e9f9e5481241842124a3b5a3b0a8c9fb4b13d0bb2656a2576421102b583be4"
+  },
+  "screenshots": {
+    "build/local-ui-professional-desktop.png": "a2117f84600fd8f8a937f35c1d7b491f3245d341b639cb4c1053e74ee3677eeb",
+    "build/local-ui-professional-mobile.png": "efc9c9b15a792747faf1c75af3a6fc0c3cec6fef4736b1b17c90dc3899bbd3ac"
+  },
+  "standalone_preview": {
+    "filename": "welcome-professional.html",
+    "sha256": "71f12e866d95e75edd27bc9f64717aad248d4013e7983dc014841459748ca448",
+    "http_requests": 0,
+    "checked": [
+      "file-open preview",
+      "exact saved examples",
+      "fixed preview settings",
+      "local-app setup instructions",
+      "no network requests",
+      "mobile width"
+    ]
+  }
+}

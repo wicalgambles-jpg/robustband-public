@@ -1,0 +1,31 @@
+{
+  "schema": "robustband.review_optimization_experiment/v1",
+  "frozen_date": "2026-10-12",
+  "objective": "The same minimum unit-cost reviews making every declared target width <= epsilon",
+  "development_seed": 20261013,
+  "held_out_seed": 20261107,
+  "held_out_policy": "Do not inspect held-out outcomes until the implementation and development tests are frozen; report all cases",
+  "budget": {"search_nodes": 5000, "exchange_checks": 20000},
+  "suites": {
+    "original": {"source": "results/review_mechanism_2026-10-12.json", "n_problems": 100, "epsilon": "1/10"},
+    "dense": {"sizes": [32, 64, 128], "cases_per_size": 12, "targets": [3, 5], "epsilon": ["1/2", "1"], "intervals": [[-1, 1], [-1, 0], [0, 1]], "weight_integers": [1, 12]},
+    "grouped": {"sizes": [256, 512], "cases_per_size": 6, "classes": 4, "length_buckets": 3, "epsilon": ["1/2", "1"], "targets": ["micro", "macro_class", "macro_len"]},
+    "real": {"dataset": "existing GSM8K paired prefix of 24", "domains": ["unrestricted", "candidate"], "epsilon": "1/20"}
+  },
+  "baselines": ["frozen_legacy_plan", "HiGHS_MILP_via_SciPy_optional_external_oracle"],
+  "metrics": ["review_count", "certified_lower_bound", "optimality_gap", "optimality_certified_cases", "planning_seconds", "search_nodes", "contribution_groups"],
+  "gates": [
+    "Independent exhaustive subset oracle on tiny problems including zeros, repeated columns, reviewed items and rational boundaries",
+    "Every chosen set checked using original rational weights independently of integer solver",
+    "No more reviews than legacy greedy on larger cases; match legacy exact optimum on original cases",
+    "Every claimed minimum checked against enumeration or external solver where available",
+    "No runtime dependencies; node budget and truthful residual gap on cutoff"
+  ],
+  "interpretation": [
+    "Synthetic suites assess the finite-record optimization algorithm, not human adjudication or benchmark accuracy",
+    "No change to domains, targets, epsilon or unit costs between planners",
+    "Candidate-domain coverage remains unvalidated",
+    "Portfolio packing, surrogate bounds and grouped branch-and-bound are established optimization tools; measured software improvements do not prove method novelty",
+    "This development protocol is local and retrospective to the earlier prototype, not an externally preregistered study"
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "schema": "robustband.compiled_experiment/v1",
+  "date": "2026-10-12",
+  "input": "frozen 24-pair GSM8K prefix",
+  "family": "existing 80 built-in configurations",
+  "B": 2000,
+  "seed": 20261001,
+  "comparison": "core.evaluate on paired bootstrap indices versus one compiled scoring snapshot evaluated on the same indices",
+  "gate": "All serialized band fields, including every per-configuration margin and the break set, have byte-identical digests",
+  "timing": "Single local elapsed-time comparison, including compilation in the compiled total; machine-specific engineering measurement",
+  "novelty": "Caching and sufficient-statistic reuse are established techniques; no methodology novelty claim"
+}

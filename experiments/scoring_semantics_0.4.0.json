@@ -1,0 +1,18 @@
+{
+  "schema": "robustband.scoring_semantics/v1",
+  "frozen_source_revision": "286b1a4",
+  "default_family": {
+    "parses": 5,
+    "metrics": 4,
+    "aggregators": 4,
+    "configs": 80
+  },
+  "source_sha256_lf": {
+    "robustband/core.py": "5ca82d608f19c20fae7de788bedccb97331fd19f3c9774bd26d22ba543b20bbc",
+    "robustband/parsers.py": "e2d94b1d8ee4b6576415f6a2cbc7fbfca3c9a0865a404435d8778f1109710cac",
+    "robustband/metrics.py": "bc3df4721a7be99ccfa614d789ac4e43782945f7fe8c23496eb9a8a2632ff617",
+    "robustband/aggregate.py": "b1a72332221ac48d14174b0901031bae7751da4f7b6f05e24f599b93eda70274",
+    "robustband/claim.py": "ac3663ce32bbe3f9ba5a0c049c5db4e0ab7c1f1eb7043ce9365f5dabf0ccc3b6",
+    "robustband/rational.py": "db0661fff0e18085e3fb5e47c0be0676ac0e09358a2f442ea60c47345474d052"
+  }
+}

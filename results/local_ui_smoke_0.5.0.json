@@ -1,0 +1,32 @@
+{
+  "schema": "robustband.browser_smoke/v1",
+  "software_version": "0.5.0",
+  "platform": "win32",
+  "browser": "Edg/148.0.3967.54",
+  "checked": [
+    "example exact band",
+    "CSV example",
+    "JSONL upload",
+    "Unicode and HTML escaping",
+    "explicit macro grouping",
+    "duplicate-ID rejection",
+    "stale result invalidation",
+    "HTML/JSON downloads",
+    "language switch",
+    "desktop and mobile layout"
+  ],
+  "example_exact_band": [
+    "-1",
+    "1"
+  ],
+  "script_exceptions": [],
+  "independent_human_user": false,
+  "source_sha256": {
+    "robustband/ui.html": "a5ab7726a9ab776f72859038f8ed30561551e8cbd0e95612534c9dc0183a9890",
+    "experiments/ui_browser_smoke.cjs": "12f3f7c6933be909b977b839fb77ab01883f2d9eff104ff28c180f3ba976cd46"
+  },
+  "screenshots": {
+    "build/local-ui-desktop.png": "d7033c707d88f105af83dc1f7018a03cd01f4526f9639b62a1fe23aa7f8ae8b1",
+    "build/local-ui-mobile.png": "74867c17d98da5f42bdb3aa25ff0236c3f3228e3fb98b9d282c56d802ad93e62"
+  }
+}

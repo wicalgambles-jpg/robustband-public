@@ -1,0 +1,26 @@
+{
+  "schema": "robustband.portable_acceptance/v1",
+  "version": "1.0.0",
+  "checks": [
+    "version in path containing Unicode and spaces; system-only PATH",
+    "text demo and exact replay",
+    "scores demo and exact replay",
+    "segmentation demo and exact replay",
+    "adoption check and replay",
+    "validated conversion and manifest",
+    "ranking and replay",
+    "professional HTTP pages, isolation, exact decision and clean stop",
+    "generalized HTTP pages, isolation, exact decision and clean stop"
+  ],
+  "passed": 9,
+  "first_version_command_seconds": 0.55,
+  "python_on_PATH": false,
+  "unicode_and_space_path": true,
+  "executable_sha256": "d14dfb0ac6751b7c7f23e105e394758699494c49b4ae317197a53ae08978c3f2",
+  "source_sha256_lf": {
+    "submission/verify_portable.py": "3fdeabc4bbe0a5a70317c31c5bc67a97288aa54f3539ef38cb377c64bb58e845",
+    "submission/build_portable.py": "810e9068f3fe220b85856b5b5e623b4e6b4aed3384be2d7893a38e31a7093875",
+    "submission/portable_entry.py": "acace887c27e7567a3f997f383320d0a37faebbdd60f421fe41cdfc36b242a3e"
+  },
+  "scope": "Executed portable core with system-only PATH on this Windows host. Not a virtual machine or a separate physical host."
+}

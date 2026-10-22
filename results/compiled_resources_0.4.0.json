@@ -1,0 +1,79 @@
+{
+  "schema": "robustband.compiled_resources/v1",
+  "version": "0.4.0",
+  "date": "2026-10-12",
+  "python": "3.13.14",
+  "platform": "Windows-11-10.0.22631-SP0",
+  "n_pairs": 24,
+  "n_configs": 80,
+  "resamples": 100,
+  "seed": 20261012,
+  "timing": "Median of three alternating-order untraced runs; snapshot construction included",
+  "timing_samples_seconds": {
+    "raw": [
+      8.445641800000885,
+      8.431926700000986,
+      8.434477000000697
+    ],
+    "cached_including_compile": [
+      0.052675699998872005,
+      0.05362330000025395,
+      0.051804599999741185
+    ]
+  },
+  "median_seconds": {
+    "raw": 8.434477000000697,
+    "cached_including_compile": 0.052675699998872005
+  },
+  "observed_speedup": 160.12083370854708,
+  "python_allocations": {
+    "raw": {
+      "peak_bytes": 26945,
+      "retained_bytes_at_end": 1369
+    },
+    "cached_including_compile": {
+      "peak_bytes": 40539,
+      "retained_bytes_at_end": 13601
+    }
+  },
+  "memory_scope": "Separate traced 100-resample pass; excludes preexisting inputs/indices, includes cached snapshot; Python allocations, not RSS or total system memory",
+  "raw_and_cached_outputs": {
+    "raw": {
+      "band_fields_sha256": "da52a48eb91a3fdfb8714ccea8041d25c9e3fab32bdd0a6db67acbf0b34f471e",
+      "contains_zero_count": 100,
+      "strict_flip_count": 78
+    },
+    "cached_including_compile": {
+      "band_fields_sha256": "da52a48eb91a3fdfb8714ccea8041d25c9e3fab32bdd0a6db67acbf0b34f471e",
+      "contains_zero_count": 100,
+      "strict_flip_count": 78
+    }
+  },
+  "every_band_field_identical": true,
+  "source_sha256_lf": {
+    "experiments/compiled_resources.py": "35ceb9b5a6828ff51f92934c605f5fec7bd2a94397479b48e40b73267962c239",
+    "experiments/compiled_benchmark.py": "e3f92820e00c80ae3f506b09a7fc02e19bc555e31904e7d8eb70450c779bca81",
+    "examples/review_budget.py": "2788badedd1936bda55fcbf9a3252ae0cc0749b1f41acb2bc6933425ced55538",
+    "demo/data_real/cot.jsonl": "9b301716eb512a859d7976be60ae606cce186bf97bb6ab6d531e772039270697",
+    "demo/data_real/plain.jsonl": "472de3be342315becd3a54b22240627a4942ba65e15dfbe35974847ecac12d32",
+    "robustband/__init__.py": "c8352e7e528d0f4e908302725535bf69491fc9a437e53463c044659d96cd04d0",
+    "robustband/adapter.py": "08835ef70113353ab4e6965b7c321d05399d132c3a0d903320d9bb246f694cb9",
+    "robustband/aggregate.py": "b1a72332221ac48d14174b0901031bae7751da4f7b6f05e24f599b93eda70274",
+    "robustband/certificate.py": "ce7022f4fb6ef80e1f2b8fe63089ff184dcba82cd6ad0144a9f2193499c66e7f",
+    "robustband/claim.py": "ac3663ce32bbe3f9ba5a0c049c5db4e0ab7c1f1eb7043ce9365f5dabf0ccc3b6",
+    "robustband/compiled.py": "af07df7c796787ada82b80335d11d92a9430e4194ceb5459b4a2c6209bd06659",
+    "robustband/core.py": "5ca82d608f19c20fae7de788bedccb97331fd19f3c9774bd26d22ba543b20bbc",
+    "robustband/evalscope.py": "6fc9c6acbac082a69456bb379de7ef7e6bbe4d6936eacb79f50355377c47ad7e",
+    "robustband/metrics.py": "bc3df4721a7be99ccfa614d789ac4e43782945f7fe8c23496eb9a8a2632ff617",
+    "robustband/parsers.py": "e2d94b1d8ee4b6576415f6a2cbc7fbfca3c9a0865a404435d8778f1109710cac",
+    "robustband/rational.py": "db0661fff0e18085e3fb5e47c0be0676ac0e09358a2f442ea60c47345474d052",
+    "robustband/review.py": "17a08fe68027918e52b2a64c3384ae44e0e0a63efd48892ce7493399890fed61",
+    "robustband/review_dual.py": "956834417f4f41e0a531332f5b678225cb79f6b6e5685d3bee42070e559c3ede",
+    "robustband/review_search.py": "486be196a821aa8950fb24801af9c6e05aaf45a1d3a685cb49063f064fd9a697"
+  },
+  "limits": [
+    "Single Windows/Python environment, small frozen sample",
+    "No timing assertion or universal speed claim",
+    "Caching is established engineering, not a novel mathematical method"
+  ]
+}

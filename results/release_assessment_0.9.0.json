@@ -1,0 +1,44 @@
+{
+  "schema": "robustband.release_assessment/v1",
+  "version": "0.9.0",
+  "date": "2026-10-21",
+  "source_commit": "24d1da1",
+  "tests": {
+    "tests": 361,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "covered_statements": 2128,
+  "total_statements": 2128,
+  "observed_blockers": [
+    {
+      "id": "converter-source-overwrite",
+      "probe_exit_code": 0,
+      "source_overwritten": true,
+      "evidence": "Disposable NPZ was accepted as --output and replaced with JSON. No user files used."
+    },
+    {
+      "id": "duplicate-request-keys",
+      "http_status": 200,
+      "evidence": "Duplicate JSON format keys accepted."
+    }
+  ],
+  "implementation_findings": [
+    "Threaded local HTTP worker count has no explicit bound.",
+    "Request authentication is checked after reading the complete declared body.",
+    "NPZ converter has no declared expanded-archive/pixel budget or ignore-label option.",
+    "Adoption forms remain fully expanded after completion."
+  ],
+  "targeted_1_0_gates": [
+    "source preservation",
+    "bounded requests",
+    "strict JSON",
+    "converter roundtrip and CUDA/CPU agreement",
+    "guided responsive UI",
+    "fresh offline installs",
+    "Windows portable executable",
+    "public snapshot and release provenance"
+  ],
+  "independent_human_user": false
+}

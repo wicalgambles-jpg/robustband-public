@@ -1,0 +1,64 @@
+{
+  "schema": "robustband.browser_smoke/v1",
+  "software_version": "0.7.0",
+  "platform": "win32",
+  "browser": "Edg/148.0.3967.54",
+  "edition": "generalized",
+  "editable_extension": true,
+  "checked": [
+    "example exact band",
+    "CSV example",
+    "JSONL upload",
+    "Unicode and HTML escaping",
+    "explicit macro grouping",
+    "duplicate-ID rejection",
+    "stale result invalidation",
+    "HTML/JSON downloads",
+    "language switch",
+    "desktop and mobile layout",
+    "segmentation aggregation reversal",
+    "explicit class target",
+    "percentage point display",
+    "numeric metric aggregation reversal",
+    "lower-is-better claim and units",
+    "registered user algorithm",
+    "exact decimal parameter",
+    "select parameter",
+    "strict advantage threshold",
+    "decimal parameter below float resolution",
+    "purpose and data-kind entry",
+    "advanced rules start collapsed",
+    "plain-language result and example label",
+    "template-to-upload next step",
+    "actionable duplicate-ID guidance",
+    "keyboard help dialog",
+    "drag-and-drop upload"
+  ],
+  "example_exact_band": [
+    "-1",
+    "1"
+  ],
+  "script_exceptions": [],
+  "independent_human_user": false,
+  "source_sha256": {
+    "robustband/ui.html": "0e125758f75cc422878cc9666d8c559ee615e50e3898ccd1d8c98133bac91a4b",
+    "experiments/ui_browser_smoke.cjs": "97e9f9e5481241842124a3b5a3b0a8c9fb4b13d0bb2656a2576421102b583be4"
+  },
+  "screenshots": {
+    "build/local-ui-extension-desktop.png": "670d67fb41b84bf322e6b354dd6e3367f1b079941fcee5b50f12ccab4dbb9316",
+    "build/local-ui-extension-mobile.png": "addeea3f24dc1e55fbe3a7a4422129b1509ef34f30ba7dd7eaed5bff8c19965d"
+  },
+  "standalone_preview": {
+    "filename": "WELCOME.html",
+    "sha256": "086a7eb3854fcb28b060504b6e2c985eef0dfbfb5d11e15b0ec88ad16ee5c1df",
+    "http_requests": 0,
+    "checked": [
+      "file-open preview",
+      "exact saved examples",
+      "fixed preview settings",
+      "local-app setup instructions",
+      "no network requests",
+      "mobile width"
+    ]
+  }
+}

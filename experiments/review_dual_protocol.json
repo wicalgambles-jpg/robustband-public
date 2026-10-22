@@ -1,0 +1,32 @@
+{
+  "schema": "robustband.review_dual_experiment/v1",
+  "frozen_date": "2026-10-12",
+  "baseline_commit": "be19c67",
+  "objective": "Same declared domains, target weights, epsilon and unit costs; minimize reviews with exact width guarantees",
+  "development_seed": 20261014,
+  "held_out_seed": 20261123,
+  "budget": {"search_nodes": 5000, "exchange_checks": 20000, "pricing_rounds": 8},
+  "timing": "Median of three alternating-order measurements; include pricing and proof construction",
+  "suites": {
+    "dense": {"sizes": [32, 64, 128], "cases_per_size": 16, "targets": [3, 5], "epsilon": ["1/2", "1"], "factorial": "all four target-count / epsilon pairs at each size, four repetitions", "intervals": [[-1, 1], [-1, 0], [0, 1]], "weights": "independent integer weights 1..12, normalized per target"},
+    "grouped": {"sizes": [256, 512], "cases_per_size": 6, "classes": 4, "length_buckets": 3, "epsilon": ["1/2", "1"], "targets": ["micro", "macro_class", "macro_len"]},
+    "regression": {"original": "results/review_mechanism_2026-10-12.json", "previous_held_out": "results/review_optimization_held_out_2026-10-12.json", "scope": "Previously observed cases are regression only"},
+    "real": {"domains": ["unrestricted", "candidate"], "epsilon": "1/20"}
+  },
+  "baselines": ["frozen_v1_integer_planner", "legacy", "optional_HiGHS_MILP"],
+  "metrics": ["reviews", "exact_lower_bound", "certified_optimal_cases", "standalone_certificate_cases", "planning_seconds", "search_nodes", "pricing_rounds"],
+  "gates": [
+    "Every feasible set independently checked with original rational constraints",
+    "Tiny-case exhaustive oracle checks every claimed minimum and lower bound",
+    "Every lower-bound certificate verified independently of pricing and search",
+    "Pricing floats are guidance only; validity derives from exact nonnegative rational prices",
+    "Public experimental inputs are identified by normalized source hashes",
+    "Freeze implementation before first held-out run; report all cases and regressions"
+  ],
+  "limits": [
+    "Guided heuristics under equal node budgets can still lose to V1 search; report such cases",
+    "Shared-resource accounting and hinge duality are established mathematical ideas; analogy does not prove novelty",
+    "No human labels, domain calibration or population accuracy claims",
+    "Local frozen split, not external preregistration; all pricing overhead included in timings"
+  ]
+}

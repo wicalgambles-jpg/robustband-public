@@ -1,0 +1,157 @@
+<!-- SPDX-License-Identifier: MIT -->
+<!doctype html><html lang="zh"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>robustband · 排名审计</title>
+<style>
+:root{color-scheme:light;--ink:#18353b;--muted:#617478;--line:#dce6e5;--accent:#116b60}
+*{box-sizing:border-box}
+body{font:15px/1.65 "Segoe UI","Microsoft YaHei",sans-serif;color:var(--ink);background:#f6f8f7;margin:0}
+main,nav{max-width:1120px;margin:auto;padding:22px}
+nav{display:flex;align-items:center;gap:18px}
+nav strong{font-size:23px}
+nav a{margin-left:auto}
+a{color:var(--accent)}
+h1{font-size:34px;line-height:1.35}
+h2{font-size:21px;margin:0 0 12px}
+h3{font-size:17px}
+p{margin:10px 0}
+.muted,small{color:var(--muted)}
+button,input,select,textarea{font:inherit;color:inherit}
+button{border:1px solid var(--line);background:white;border-radius:8px;padding:10px 15px;cursor:pointer}
+button.primary{background:var(--accent);color:white;border-color:var(--accent)}
+button:disabled{opacity:.5;cursor:default}
+:focus-visible{outline:3px solid #359d89;outline-offset:3px}
+input,select,textarea{max-width:100%;width:100%;padding:9px;border:1px solid #b8cbc5;border-radius:6px;background:white}
+label{display:block;font-size:13px;margin-top:9px}
+label input,label select{margin-top:4px}
+section,.card{background:white;padding:24px;border:1px solid var(--line);border-radius:12px;margin:20px 0}
+.row{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.grid>*{min-width:0}
+.tag{font-size:12px;font-weight:650;color:var(--accent)}
+.notice{padding:13px 16px;border-radius:8px;background:#edf6f2}
+.error{color:#883e2b;background:#fff3ee;padding:16px;border-radius:8px;overflow-wrap:anywhere}
+.scroll{overflow:auto}
+table{border-collapse:collapse;width:100%;font-size:13px}
+th,td{text-align:left;padding:9px;border-bottom:1px solid var(--line);overflow-wrap:anywhere}
+th{color:var(--muted)}
+pre{white-space:pre-wrap;overflow-wrap:anywhere;font-size:12px;background:#f5f8f6;padding:12px}
+summary{cursor:pointer;margin:10px 0}
+.chip{display:inline-block;padding:3px 10px;border-radius:999px;font-size:12px;font-weight:700;border:1px solid var(--line);color:var(--muted);background:#fff}
+.chip.ok{background:#edf6f2;border-color:#bcdccf;color:var(--accent)}
+.chip.warn{background:#fff4df;border-color:#ecd3a8;color:#8b581a}
+.status{font-size:27px}
+#drop{padding:18px;border:1px dashed #abc3bd;border-radius:8px;margin-top:14px}
+#drop.over{background:#edf6f2}
+.actions{margin-top:18px}
+.rankrow{display:flex;gap:18px;flex-wrap:wrap;margin:12px 0}
+.rankrow div{background:#f6f8f7;border:1px solid var(--line);border-radius:10px;padding:10px 14px}
+.rankrow b{display:block;font-size:20px}
+[hidden]{display:none!important}
+@media(max-width:700px){main,nav{padding:16px}.grid{grid-template-columns:1fr}h1{font-size:28px}section{padding:18px}nav{flex-wrap:wrap}nav a{margin-left:0}}
+
+/* 1.0 workspace: clear stages, restrained surfaces, accessible controls. */
+body{background:radial-gradient(ellipse at 12% 0%,#e7f2ed 0,transparent 46%),#f6f8f7}
+nav{border-bottom:1px solid var(--line);padding-top:18px;padding-bottom:18px}
+nav strong{letter-spacing:-.8px}h1{letter-spacing:-1px;max-width:900px}
+button{min-height:44px;transition:background .15s,border-color .15s,box-shadow .15s}
+button:hover:not(:disabled){border-color:var(--accent);box-shadow:0 2px 8px #18353b12}
+button.primary:hover:not(:disabled){background:#0c574e}button:active:not(:disabled){transform:translateY(1px)}
+section,.card{box-shadow:0 3px 18px #18353b05}input,select,textarea{min-height:42px}
+textarea{resize:vertical}h2{letter-spacing:-.3px}a{text-underline-offset:4px}
+.stage-summary{display:list-item;font-weight:650;font-size:17px;padding:5px 0;cursor:pointer}
+details[open]>.stage-summary{margin-bottom:22px}#inputDetails>h2,#criteriaDetails>h2{display:none}
+#conversionActions{border-top:1px solid var(--line);padding-top:15px}
+#result{border-top:4px solid var(--accent);scroll-margin-top:18px}
+#status{scroll-margin-top:25px}#stopSession{font-size:12px;padding:7px 10px;min-height:36px}
+@media(max-width:700px){nav{gap:10px}nav strong{width:100%}h1{letter-spacing:-.5px}button{max-width:100%;white-space:normal}.stage-summary{font-size:16px}}
+@media(prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
+
+</style></head><body>
+<nav><strong>robustband</strong><span class="tag" data-zh="排名审计" data-en="Ranking audit"></span><a id="back" data-zh="返回评分比较" data-en="Back to comparison"></a><button id="language">English</button><button id="stopSession" data-zh="结束本地会话" data-en="Stop session"></button></nav>
+<main>
+<h1 data-zh="名次会不会因为评分规则而改变？" data-en="Does the order survive the scoring rules?"></h1>
+<p class="muted" data-zh="导入一张长表（每题每个模型一行），同一批样本上给所有模型排名，再看名次是否随评分规则变化。" data-en="Import one long table (one row per sample and model), rank every model on the same samples, and see whether the order changes with the scoring rules."></p>
+<div class="row actions"><button id="example" class="primary" data-zh="运行合成示例" data-en="Run synthetic example"></button><label style="margin:0"><span data-zh="文件格式" data-en="File format"></span><select id="format"><option value="csv">CSV</option><option value="jsonl">JSONL</option></select></label></div>
+<p class="muted" data-zh="本地处理 · 规则由你声明 · 范围不是置信区间" data-en="Local processing · rules declared by you · ranges are not confidence intervals"></p>
+<div id="error" class="error" role="alert" tabindex="-1" hidden></div>
+<section id="inputSection"><h2 data-zh="1. 导入长表" data-en="1. Import the long table"></h2>
+<p class="muted" data-zh="必需列：sample_id, model, gold, output；可选 prompt, class, len_bucket。每个模型必须覆盖完全相同的样本。" data-en="Required columns: sample_id, model, gold, output; optional prompt, class, len_bucket. Every model must cover exactly the same samples."></p>
+<div id="drop"><label><span data-zh="把文件拖到这里，或选择文件" data-en="Drop the file here, or choose a file"></span>
+<input id="file" type="file" accept=".csv,.jsonl,text/plain"></label>
+<p id="message" class="muted" data-zh="UTF-8；最多 4 MiB / 5000 行；最多 8 个模型" data-en="UTF-8; at most 4 MiB / 5000 rows; at most 8 models"></p></div>
+<button id="preview" class="primary actions" disabled data-zh="检查数据" data-en="Check data"></button>
+</section>
+<section id="details" hidden><h2 data-zh="2. 预览" data-en="2. Preview"></h2>
+<p id="summary" class="muted"></p>
+<div id="modelList" class="row"></div>
+<label data-zh="协议（可多选）" data-en="Protocols (multi-select)"></label>
+<div class="grid"><div><h3 data-zh="答案提取" data-en="Answer extraction"></h3><div id="parses" class="row"></div></div>
+<div><h3 data-zh="单项判定" data-en="Item correctness"></h3><div id="metrics" class="row"></div></div></div>
+<div><h3 data-zh="分数汇总" data-en="Aggregation"></h3><div id="aggs" class="row"></div></div>
+<button id="run" class="primary actions" data-zh="运行排名审计" data-en="Run ranking audit"></button>
+</section>
+<section id="result" hidden aria-live="polite"><span id="verdictChip" class="chip"></span>
+<h2 id="verdict" class="status" tabindex="-1"></h2>
+<p id="finding" class="notice"></p>
+<div id="stats" class="rankrow"></div>
+<h3 data-zh="名次范围" data-en="Rank range"></h3><div id="rankTable" class="scroll"></div>
+<h3 data-zh="两两比较" data-en="Pairwise comparisons"></h3><p class="muted" data-zh="区间 = 列顺序在前者 − 后者（定向差值）。" data-en="Range = earlier column minus later column, oriented."></p><div id="pairTable" class="scroll"></div>
+<details><summary data-zh="逐条协议的名次" data-en="Ranking per protocol"></summary><div id="protocolTable" class="scroll"></div></details>
+<h3 data-zh="范围与诊断" data-en="Scope and diagnostics"></h3><ul id="notes"></ul>
+<div class="row actions"><button id="html" data-zh="保存可读报告" data-en="Save readable report"></button><button id="json" data-zh="保存完整复核数据" data-en="Save full replay data"></button></div>
+<p class="muted" data-zh="复核数据包含完整输入与协议；分享前请核对。" data-en="Replay data contains the complete input and protocols; review it before sharing."></p>
+<details><summary data-zh="重新计算并复核" data-en="Recompute and verify"></summary><p><code>python -m robustband verify report.json</code></p><p id="hash"></p></details>
+</section>
+</main><script>
+const $=id=>document.getElementById(id), token=location.hash.slice(1);
+let lang=navigator.language.startsWith('zh')?'zh':'en', options=null, text='', preview=null, last=null, busy=false;
+const LABELS={STABLE:{zh:'名次稳健',en:'Stable order',tone:'ok'},'LEADER-STABLE':{zh:'第一名稳定、其余随规则变化',en:'Stable leader, moving rest',tone:'warn'},SENSITIVE:{zh:'第一名随规则变化',en:'Rule-sensitive leader',tone:'warn'}};
+const tr=(zh,en)=>lang==='zh'?zh:en;
+function translate(){document.documentElement.lang=lang;document.querySelectorAll('[data-zh]').forEach(e=>{e.textContent=lang==='zh'?e.dataset.zh:e.dataset.en;});$('language').textContent=lang==='zh'?'English':'中文';if(last)render(last.report,last.html,last.json);}
+function error(message=''){$('error').hidden=!message;if(message){$('error').textContent=message;$('error').focus();}}
+function table(headers,rows){const t=document.createElement('table'),head=document.createElement('tr');for(const h of headers){const th=document.createElement('th');th.textContent=h;head.append(th);}t.append(head);for(const row of rows){const tr=document.createElement('tr');for(const cell of row){const td=document.createElement('td');td.textContent=cell;tr.append(td);}t.append(tr);}return t;}
+async function api(path,body){const response=await fetch(path,body===undefined?{}:{method:'POST',headers:{'Content-Type':'application/json','X-Robustband-Token':token},body:JSON.stringify(body)});const data=await response.json();if(!response.ok)throw new Error(data.error||('HTTP '+response.status));return data;}
+function download(name,value,type='application/json;charset=utf-8'){const a=document.createElement('a'),url=URL.createObjectURL(new Blob([value],{type}));a.href=url;a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);}
+function checks(container,values,selected){container.replaceChildren();for(const value of values){const label=document.createElement('label');label.style.margin='0';label.style.display='flex';label.style.gap='6px';label.style.alignItems='center';const box=document.createElement('input');box.type='checkbox';box.value=value;box.checked=selected.includes(value);box.style.width='auto';label.append(box,document.createTextNode(value));container.append(label);}}
+function ticked(container){return [...container.querySelectorAll('input:checked')].map(box=>box.value);}
+async function loadFile(file){if(!file||busy)return;error();setBusy(true);try{if(file.size>options.max_bytes)throw new Error(tr('文件超过 4 MiB。','The file exceeds 4 MiB.'));text=await file.text();$('message').textContent=file.name+' · '+text.split('\n').length+' '+tr('行','lines');preview=await api('/api/matrix/preview',{text,format:$('format').value});showPreview(preview);}catch(e){error(e.message);}finally{setBusy(false);}}
+function showPreview(data){$('details').hidden=false;$('result').hidden=true;preview=data;$('summary').textContent=tr(`${data.n_models} 个模型 · ${data.n_items} 个共享样本`, `${data.n_models} models · ${data.n_items} shared samples`);$('modelList').replaceChildren(...data.models.map(model=>{const span=document.createElement('span');span.className='chip';span.textContent=model;return span;}));checks($('parses'),options.parses,options.defaults.parses);checks($('metrics'),options.metrics,options.defaults.metrics);checks($('aggs'),options.aggs,options.defaults.aggs);}
+function setBusy(value){busy=value;document.querySelectorAll('button,input,select,textarea').forEach(e=>{if(e.id!=='language')e.disabled=value||(e.id==='preview'&&!text);});if(!value)$('preview').disabled=!text;}
+function family(){const parses=ticked($('parses')),metrics=ticked($('metrics')),aggs=ticked($('aggs'));if(!parses.length||!metrics.length||!aggs.length)throw new Error(tr('每类协议至少选一项。','Choose at least one option in every protocol axis.'));return {parses,metrics,aggs};}
+async function run(){error();setBusy(true);try{const response=await api('/api/matrix/audit',{text,format:$('format').value,family:family()});last=response;render(response.report,response.html,response.json);}catch(e){error(e.message);}finally{setBusy(false);}}
+function pairCell(model, other, lookup, order) {
+  if (model === other) return '\u2014';
+  const pair = lookup.get([model, other].sort().join('\u0000'));
+  const first = order.get(model) < order.get(other) ? model : other;
+  const band = pair.model_a === first
+    ? pair.exact_band
+    : [pair.exact_band[1], pair.exact_band[0]].map(value => value === '0' ? '0' : (value.startsWith('-') ? value.slice(1) : '-' + value));
+  const [lo, hi] = band;
+  const sign = pair.flips ? tr('翻转', 'flips')
+    : Number(hi) === 0 ? tr('含并列', 'ties')
+    : lo.startsWith('-') ? tr('落后', 'behind') : tr('领先', 'ahead');
+  return sign + ' [' + lo + ', ' + hi + ']';
+}
+function render(report,html,json){const r=report.result,label=LABELS[r.verdict]||{zh:r.verdict,en:r.verdict,tone:''};$('result').hidden=false;$('verdictChip').className='chip '+label.tone;$('verdictChip').textContent=tr(label.zh,label.en);$('verdict').textContent=tr(label.zh,label.en);const FINDING={STABLE:['所有声明协议给出相同名次。','Every declared protocol produces the same ranking.'],'LEADER-STABLE':['第一名稳定，其余名次随协议变化。','The leader is stable; the order below it depends on the protocol.'],SENSITIVE:['谁排第一取决于所选协议。','Which model leads depends on the declared protocol.']};const finding=FINDING[r.verdict]||[r.explanation,r.explanation];$('finding').textContent=tr(finding[0],finding[1]);$('stats').replaceChildren(...[[r.n_models,tr('模型','Models')],[r.n_items,tr('共享样本','Samples')],[r.n_protocols,tr('协议','Protocols')],[r.flipping_pairs,tr('翻转的对','Flipping pairs')],[r.n_reaching_first,tr('曾排第一','Reach first')]].map(([value,label])=>{const div=document.createElement('div'),b=document.createElement('b');b.textContent=String(value);div.append(b,document.createTextNode(label));return div;}));
+$('rankTable').replaceChildren(table([tr('模型','Model'),tr('最好名次','Best'),tr('最差名次','Worst'),tr('第一名协议数','First-place protocols'),tr('协议总数','Protocols')],report.models.map(model=>[model,r.rank_floor[model],r.rank_ceiling[model],r.first_place_counts[model],r.n_protocols])));
+const lookup=new Map(report.pairs.map(pair=>[[pair.model_a,pair.model_b].sort().join('\\u0000'),pair]));const order=new Map(report.models.map((model,index)=>[model,index]));
+const pairLookup = new Map(report.pairs.map(pair => [[pair.model_a, pair.model_b].sort().join('\u0000'), pair]));
+const pairOrder = new Map(report.models.map((model, index) => [model, index]));
+$('pairTable').replaceChildren(table([tr('模型', 'Model'), ...report.models],
+  report.models.map(model => [model, ...report.models.map(other => pairCell(model, other, pairLookup, pairOrder))])));
+$('protocolTable').replaceChildren(table([tr('协议','Protocol'),...report.models],report.protocols.map(row=>[row.protocol,...report.models.map(model=>row.ranks[model])])));
+$('notes').replaceChildren(...report.warnings.concat(report.limits).map(note=>{const li=document.createElement('li');li.textContent=note;return li;}));$('hash').textContent='input SHA256: '+report.input_sha256;$('html').onclick=()=>download('report.html',html,'text/html;charset=utf-8');$('json').onclick=()=>download('report.json',json);}
+$('language').onclick=()=>{lang=lang==='zh'?'en':'zh';translate();};
+$('file').onchange=()=>loadFile($('file').files[0]);
+$('format').onchange=()=>{preview=null;$('details').hidden=true;$('result').hidden=true;$('preview').disabled=true;};
+$('preview').onclick=()=>{if(!text)return;error();setBusy(true);api('/api/matrix/preview',{text,format:$('format').value}).then(showPreview).catch(e=>error(e.message)).finally(()=>setBusy(false));};
+$('run').onclick=run;
+$('example').onclick=()=>{error();setBusy(true);api('/api/options').then(data=>{text=data.matrix_example;$('format').value='csv';return api('/api/matrix/preview',{text,format:'csv'});}).then(data=>{showPreview(data);return api('/api/matrix/audit',{text,format:'csv',family:options.defaults});}).then(response=>{last=response;render(response.report,response.html,response.json);}).catch(e=>error(e.message)).finally(()=>setBusy(false));};
+for(const type of ['dragenter','dragover']) $('drop').addEventListener(type,event=>{event.preventDefault();$('drop').classList.add('over');});
+for(const type of ['dragleave','drop']) $('drop').addEventListener(type,event=>{event.preventDefault();$('drop').classList.remove('over');});
+$('drop').addEventListener('drop',event=>loadFile(event.dataTransfer.files[0]));
+async function init(){translate();$('back').href='/#'+token;try{options=await api('/api/options');$('message').textContent=tr(`UTF-8；最多 ${options.matrix_max_rows} 行 / ${options.max_bytes/1048576} MiB；最多 ${options.matrix_max_models} 个模型`,`UTF-8; at most ${options.matrix_max_rows} rows / ${options.max_bytes/1048576} MiB; at most ${options.matrix_max_models} models`);}catch(e){error(e.message);}}
+init();
+
+document.getElementById('stopSession').onclick=async()=>{try{await fetch('/api/stop',{method:'POST',headers:{'Content-Type':'application/json','X-Robustband-Token':token},body:'{}'});document.body.replaceChildren();const message=document.createElement('p');message.style.padding='36px';message.textContent=document.documentElement.lang==='zh'?'本地会话已结束，可以关闭此页面。':'Local session ended. You can close this page.';document.body.append(message);}catch(e){document.getElementById('stopSession').textContent='Session ended';}};
+</script></body></html>

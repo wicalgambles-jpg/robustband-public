@@ -1,0 +1,33 @@
+{
+  "schema": "robustband.resource_sources/v1",
+  "purpose": "Pipeline validation for the fragility resource. Scale gates (>=8 models, >=4 benchmarks of full test sets) are intentionally not met by this local archive; the grid records the shortfall instead of hiding it.",
+  "benchmarks": [
+    {
+      "id": "gsm8k_evalscope_review",
+      "kind": "raw_output",
+      "source": "evalscope examples/viz (Apache-2.0, pinned in examples/data/evalscope/manifest.json)",
+      "files": {
+        "qwen-plus": "examples/data/evalscope/qwen-plus/gsm8k_main.jsonl",
+        "qwen3-max": "examples/data/evalscope/qwen3-max/gsm8k_main.jsonl"
+      }
+    },
+    {
+      "id": "gsm8k_full_test",
+      "kind": "demo_raw",
+      "source": "frozen Qwen2.5-0.5B-Instruct greedy outputs shipped with the repository",
+      "files": {
+        "Qwen2.5-0.5B-cot": "demo/data/Qwen0.5B_cot.jsonl"
+      }
+    },
+    {
+      "id": "ifeval_evalscope_review",
+      "kind": "recorded_scores",
+      "source": "evalscope examples/viz (Apache-2.0, pinned in examples/data/evalscope/manifest.json)",
+      "metrics": ["prompt_level_strict", "inst_level_strict", "prompt_level_loose", "inst_level_loose"],
+      "files": {
+        "qwen-plus": "examples/data/evalscope/qwen-plus/ifeval_default.jsonl",
+        "qwen3-max": "examples/data/evalscope/qwen3-max/ifeval_default.jsonl"
+      }
+    }
+  ]
+}

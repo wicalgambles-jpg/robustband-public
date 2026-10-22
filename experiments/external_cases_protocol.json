@@ -1,0 +1,17 @@
+{
+  "schema": "robustband.external_cases_protocol/v1",
+  "date": "2026-10-12",
+  "scope": "Exploratory integration cases from an external toolkit's public visualization sample; not a preregistered model comparison or adoption evidence",
+  "source_repository": "https://github.com/modelscope/evalscope",
+  "source_revision": "cbe6c8019c72a75749290b02a95be03aea094e49",
+  "models": ["qwen-plus", "qwen3-max"],
+  "cases": {
+    "gsm8k": {"source_file": "gsm8k_main.jsonl", "expected_rows_per_model": 10, "parses": ["strict_exact", "first_num", "last_num", "last_line_num", "boxed"], "metrics": ["exact_match", "contains", "f1_token", "numeric_tol"], "aggs": ["micro"], "meaning": "Sensitivity over declared answer extraction and numeric judgment policies; not all policies are scientifically interchangeable"},
+    "ifeval": {"source_file": "ifeval_default.jsonl", "expected_rows_per_model": 10, "score_columns": ["prompt_level_strict", "prompt_level_loose"], "meaning": "Audit externally recorded binary prompt scores; do not claim to independently rerun IFEval instruction graders"}
+  },
+  "alignment": "Strict equality of nonempty sample-ID sets; reorder by ID; equal target, input message content and sample metadata; fail rather than truncate or repair",
+  "review": {"epsilon": "1/10", "targets": ["micro"], "domains": ["unrestricted", "candidate"], "trusted_labels": "NONE"},
+  "gates": ["Reject malformed JSON, duplicate IDs, missing predictions, inconsistent model records and out-of-range scores", "Check cached scoring against raw scoring and numeric cases against the independent reference implementation", "Recompute every reported score-table margin using exact rational arithmetic", "Preserve original source bytes and record hashes and attribution", "Report ties, stable results and negative results without selecting positive cases"],
+  "excluded": {"gpqa": "The inspected upstream prediction file has malformed JSONL and the dataset card requests that examples not be published online; not redistributed or used for conclusions"},
+  "limits": ["Ten-item public demonstration samples are not representative evaluations", "Model aliases and archived outputs do not identify immutable model weights", "Candidate-derived review intervals are uncalibrated assumptions", "External-origin inputs are not external adoption of robustband"]
+}

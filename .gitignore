@@ -1,0 +1,58 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+*.egg
+build/
+dist/
+.eggs/
+.pytest_cache/
+.mypy_cache/
+.coverage
+htmlcov/
+
+# Editable-install artifacts left in-tree
+*.pth
+
+# Local run logs / generated outputs (kept under results/ when needed)
+logs/*.log
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+
+# --- Large / non-source artifacts (MUST NOT be pushed to the public repo) ---
+demo/models/
+*.safetensors
+*.parquet
+demo/data/_archive/
+demo/data/*.jsonl
+!demo/data/Qwen0.5B_cot.jsonl
+results/_archive/
+results/*.log
+
+# --- Scratch / diagnostics (kept locally, never shipped) ---
+demo/_*.py
+demo/_*.log
+demo/_*.out
+results/_*.out
+
+# Generated API reference (rebuild with: python docs/build_api_docs.py)
+docs/api/
+
+# Default local audit outputs can contain user-provided records
+robustband-demo/
+robustband-report/
+audit-demo/
+audit-results/
+
+# Local release checks and manuscript build products
+.release-check/
+results/distribution_check_*.json
+submission/mloss/*.aux
+submission/mloss/*.log
+submission/mloss/*.out
+submission/mloss/*.sty
+submission/mloss/*.pdf

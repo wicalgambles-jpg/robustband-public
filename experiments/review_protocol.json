@@ -1,0 +1,23 @@
+{
+  "schema": "robustband.review_experiment/v1",
+  "frozen_date": "2026-10-12",
+  "scope": "Exploratory prototype, not a replication of the original preregistration",
+  "objective": "Minimize unit-cost item reviews until every declared linear target has completion-envelope width at most epsilon",
+  "synthetic": {"n_problems": 100, "n_items": 10, "seed": 20261012, "epsilon": "1/10", "random_orders_per_problem": 40},
+  "real": {"dataset": "GSM8K frozen paired prefix", "n_items": 24, "epsilon": "1/20", "random_orders": 200, "seed": 20261012},
+  "baselines": ["all_ambiguous_items", "random_ambiguous_items", "unweighted_interval_width", "minimax_greedy"],
+  "gates": {
+    "soundness": "All exhaustive tiny-case completions lie inside reported bounds; no declared robust decision is contradicted",
+    "optimality": "Whenever minimum-cardinality is asserted, independent subset enumeration confirms it",
+    "planner": "Every output plan meets its advertised residual-width bound for every target",
+    "usefulness": "Report review counts and losses versus strong baselines; do not require a positive improvement to report results"
+  },
+  "limits": [
+    "Candidate-derived item intervals are conditional assumptions, not calibrated truth intervals",
+    "The unrestricted [-1,1] mode is the default for unreviewed binary-score differences",
+    "No human labels, GPU generation, or population generalization are claimed",
+    "Random review baselines draw only from ambiguous items",
+    "External statistical evaluation systems optimize different objectives and are literature comparisons, not numerical baselines here",
+    "Interval arithmetic, active querying and subset-cover optimization are prior art; integration does not establish methodology novelty"
+  ]
+}

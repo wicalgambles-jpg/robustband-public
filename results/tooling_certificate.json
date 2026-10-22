@@ -1,0 +1,401 @@
+{
+  "schema": "robustband.tooling_certificate/v2",
+  "robustband_version": "1.0.0",
+  "data_sources": {
+    "items": {
+      "path": "demo/data/items.json",
+      "sha256": "7f2d46f32e4d4206fcab204d4337213623eaf683d3d0347e960a07dd5aae7e09",
+      "n_rows": 1319
+    },
+    "full_cot": {
+      "path": "demo/data/Qwen0.5B_cot.jsonl",
+      "sha256": "40a58dc9bbf5faa79ca2e6930522cf37afd12e8b0776375f73d5a042945e38eb",
+      "n_rows": 1319
+    },
+    "paired_cot": {
+      "path": "demo/data_real/cot.jsonl",
+      "sha256": "9b301716eb512a859d7976be60ae606cce186bf97bb6ab6d531e772039270697",
+      "n_rows": 30
+    },
+    "paired_plain": {
+      "path": "demo/data_real/plain.jsonl",
+      "sha256": "472de3be342315becd3a54b22240627a4942ba65e15dfbe35974847ecac12d32",
+      "n_rows": 24
+    }
+  },
+  "claim": {
+    "kind": "rank",
+    "better": "cot",
+    "worse": "plain",
+    "name": "cot>plain"
+  },
+  "frozen_protocol": "strict_exact|exact_match|micro",
+  "family_axes": {
+    "parse": [
+      "strict_exact",
+      "first_num",
+      "last_num",
+      "last_line_num",
+      "boxed"
+    ],
+    "metric": [
+      "exact_match",
+      "contains",
+      "f1_token",
+      "numeric_tol"
+    ],
+    "agg": [
+      "micro",
+      "macro_class",
+      "macro_len",
+      "median"
+    ]
+  },
+  "L1_positive_band": {
+    "n_items": 24,
+    "n_configs": 80,
+    "delta": [
+      -0.04166666666666666,
+      0.065
+    ],
+    "verdict": "UNIDENTIFIABLE",
+    "stability_fraction": 0.3125,
+    "n_break": 55,
+    "witness_positive": {
+      "config": "last_line_num|exact_match|macro_class",
+      "margin": 0.065
+    },
+    "witness_negative": {
+      "config": "last_line_num|exact_match|macro_len",
+      "margin": -0.04166666666666666
+    },
+    "default_margin": 0.0
+  },
+  "L2_negative_module": {
+    "impossibility_certificate": {
+      "type": "impossibility_certificate",
+      "statement": "在 ℋ（80 配置）内 δ∈[-0.0416667, 0.065] 含 0，存在合法配置给出严格相反方向。",
+      "delta": [
+        -0.04166666666666666,
+        0.065
+      ],
+      "strict_sign_flip": true,
+      "stability_fraction": 0.3125,
+      "witness_positive": {
+        "config": "last_line_num|exact_match|macro_class",
+        "margin": 0.065
+      },
+      "witness_negative": {
+        "config": "last_line_num|exact_match|macro_len",
+        "margin": -0.04166666666666666
+      }
+    },
+    "minimal_counterexample": {
+      "type": "minimal_counterexample",
+      "config": "strict_exact|exact_match|micro",
+      "margin": 0.0,
+      "table_under_config": {
+        "cot": 0.0,
+        "plain": 0.0
+      },
+      "repro": {
+        "parse": "strict_exact",
+        "metric": "exact_match",
+        "agg": "micro",
+        "claim": "cot>plain",
+        "claim_kind": "rank"
+      }
+    },
+    "strongest_counterexample": {
+      "type": "strongest_counterexample",
+      "config": "last_line_num|exact_match|macro_len",
+      "margin": -0.04166666666666666,
+      "table_under_config": {
+        "cot": 0.10256410256410256,
+        "plain": 0.14423076923076922
+      }
+    },
+    "decision_hook": {
+      "D1_eval_authors": "据 δ-带在论文中显式声明该跨配置排名『在 ℋ 下稳健/脆弱』",
+      "D2_bench_maintainers": "据 break_set 停止对不稳健指标的调参 / 增加检测项",
+      "D3_reviewers": "据不可识别证书要求作者补跑或据以拒稿"
+    }
+  },
+  "L3_robustness": {
+    "full_scale": {
+      "n": 1319,
+      "model": "Qwen2.5-0.5B-Instruct",
+      "score_min": 0.0,
+      "score_max": 0.4715693707354056,
+      "width": 0.4715693707354056,
+      "score_ratio": null,
+      "n_distinct_scores": 37,
+      "n_configs": 80,
+      "min_config": "strict_exact|exact_match|micro",
+      "max_config": "strict_exact|contains|micro",
+      "pass": true
+    },
+    "bootstrap": {
+      "B": 2000,
+      "seed": 20261001,
+      "n_items": 24,
+      "P_unidentifiable": 1.0,
+      "P_signflip": 0.6855,
+      "stab_mean": 0.25175,
+      "stab_min": 0.0,
+      "stab_max": 0.6,
+      "pass": true
+    },
+    "subfamily": {
+      "n_leave_one": 13,
+      "all_contain0": true,
+      "leave_one": {
+        "parse:strict_exact": {
+          "n_configs": 64,
+          "delta": [
+            -0.04166666666666666,
+            0.065
+          ],
+          "verdict": "UNIDENTIFIABLE",
+          "contains0": true
+        },
+        "parse:first_num": {
+          "n_configs": 64,
+          "delta": [
+            -0.04166666666666666,
+            0.065
+          ],
+          "verdict": "UNIDENTIFIABLE",
+          "contains0": true
+        },
+        "parse:last_num": {
+          "n_configs": 64,
+          "delta": [
+            -0.04166666666666666,
+            0.065
+          ],
+          "verdict": "UNIDENTIFIABLE",
+          "contains0": true
+        },
+        "parse:last_line_num": {
+          "n_configs": 64,
+          "delta": [
+            -0.04166666666666663,
+            0.02243589743589744
+          ],
+          "verdict": "UNIDENTIFIABLE",
+          "contains0": true
+        },
+        "parse:boxed": {
+          "n_configs": 64,
+          "delta": [
+            -0.04166666666666666,
+            0.065
+          ],
+          "verdict": "UNIDENTIFIABLE",
+          "contains0": true
+        },
+        "metric:exact_match": {
+          "n_configs": 60,
+          "delta": [
+            -0.04166666666666666,
+            0.065
+          ],
+          "verdict": "UNIDENTIFIABLE",
+          "contains0": true
+        },
+        "metric:contains": {
+          "n_configs": 60,
+          "delta": [
+            -0.04166666666666666,
+            0.065
+          ],
+          "verdict": "UNIDENTIFIABLE",
+          "contains0": true
+        },
+        "metric:f1_token": {
+          "n_configs": 60,
+          "delta": [
+            -0.04166666666666666,
+            0.065
+          ],
+          "verdict": "UNIDENTIFIABLE",
+          "contains0": true
+        },
+        "metric:numeric_tol": {
+          "n_configs": 60,
+          "delta": [
+            -0.04166666666666666,
+            0.065
+          ],
+          "verdict": "UNIDENTIFIABLE",
+          "contains0": true
+        },
+        "agg:micro": {
+          "n_configs": 60,
+          "delta": [
+            -0.04166666666666666,
+            0.065
+          ],
+          "verdict": "UNIDENTIFIABLE",
+          "contains0": true
+        },
+        "agg:macro_class": {
+          "n_configs": 60,
+          "delta": [
+            -0.04166666666666666,
+            0.04166666666666667
+          ],
+          "verdict": "UNIDENTIFIABLE",
+          "contains0": true
+        },
+        "agg:macro_len": {
+          "n_configs": 60,
+          "delta": [
+            -0.04166666666666663,
+            0.065
+          ],
+          "verdict": "UNIDENTIFIABLE",
+          "contains0": true
+        },
+        "agg:median": {
+          "n_configs": 60,
+          "delta": [
+            -0.04166666666666666,
+            0.065
+          ],
+          "verdict": "UNIDENTIFIABLE",
+          "contains0": true
+        }
+      },
+      "single_axis": {
+        "parse": {
+          "n_configs": 5,
+          "delta": [
+            0.0,
+            0.04166666666666667
+          ],
+          "verdict": "UNIDENTIFIABLE"
+        },
+        "metric": {
+          "n_configs": 4,
+          "delta": [
+            -0.04166666666666663,
+            0.0
+          ],
+          "verdict": "REFUTED"
+        },
+        "agg": {
+          "n_configs": 4,
+          "delta": [
+            0.0,
+            0.0
+          ],
+          "verdict": "REFUTED"
+        }
+      },
+      "pass": true
+    },
+    "L3_pass": true
+  },
+  "L4_certified_endpoints": {
+    "n_items": 24,
+    "n_configs": 80,
+    "band_all": {
+      "lo": {
+        "num": -1,
+        "den": 24,
+        "float": -0.041666666666666664
+      },
+      "hi": {
+        "num": 13,
+        "den": 200,
+        "float": 0.065
+      }
+    },
+    "band_certain": {
+      "lo": {
+        "num": -1,
+        "den": 24,
+        "float": -0.041666666666666664
+      },
+      "hi": {
+        "num": 13,
+        "den": 200,
+        "float": 0.065
+      }
+    },
+    "n_certain": 80,
+    "contains_zero": true,
+    "dup_reps": [
+      {
+        "k": 1,
+        "lo": {
+          "num": -1,
+          "den": 24,
+          "float": -0.041666666666666664
+        },
+        "hi": {
+          "num": 13,
+          "den": 200,
+          "float": 0.065
+        },
+        "same": true
+      },
+      {
+        "k": 2,
+        "lo": {
+          "num": -1,
+          "den": 24,
+          "float": -0.041666666666666664
+        },
+        "hi": {
+          "num": 13,
+          "den": 200,
+          "float": 0.065
+        },
+        "same": true
+      },
+      {
+        "k": 4,
+        "lo": {
+          "num": -1,
+          "den": 24,
+          "float": -0.041666666666666664
+        },
+        "hi": {
+          "num": 13,
+          "den": 200,
+          "float": 0.065
+        },
+        "same": true
+      },
+      {
+        "k": 8,
+        "lo": {
+          "num": -1,
+          "den": 24,
+          "float": -0.041666666666666664
+        },
+        "hi": {
+          "num": 13,
+          "den": 200,
+          "float": 0.065
+        },
+        "same": true
+      }
+    ],
+    "dup_invariant": true
+  },
+  "checks": {
+    "L1_L4_consistent": true,
+    "L2_has_negative_module": true,
+    "L3_pass": true,
+    "L4_ok": true
+  },
+  "overall": "PASS",
+  "repro": {
+    "cert_cmd": "python tooling_certificate.py",
+    "verify_cmd": "python verify_tooling_certificate.py"
+  }
+}

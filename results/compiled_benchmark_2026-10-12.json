@@ -1,0 +1,29 @@
+{
+  "schema": "robustband.compiled_experiment/v1",
+  "date": "2026-10-12",
+  "B": 2000,
+  "seed": 20261001,
+  "python": "3.13.14",
+  "platform": "Windows-11-10.0.22631-SP0",
+  "baseline_seconds": 170.28421220000018,
+  "compiled_seconds_including_compile": 0.8505956000008155,
+  "compile_seconds": 0.012577000001328997,
+  "observed_speedup": 200.19409011736826,
+  "baseline": {
+    "band_fields_sha256": "7d3821cd2e4fe08fa73a942b3d706054f202fa8479c9a4cdfbd613fd6929bbc5",
+    "contains_zero_count": 2000,
+    "strict_flip_count": 1371
+  },
+  "compiled": {
+    "band_fields_sha256": "7d3821cd2e4fe08fa73a942b3d706054f202fa8479c9a4cdfbd613fd6929bbc5",
+    "contains_zero_count": 2000,
+    "strict_flip_count": 1371
+  },
+  "every_band_field_identical": true,
+  "input_hashes": {
+    "demo/data_real/cot.jsonl": "9b301716eb512a859d7976be60ae606cce186bf97bb6ab6d531e772039270697",
+    "demo/data_real/plain.jsonl": "472de3be342315becd3a54b22240627a4942ba65e15dfbe35974847ecac12d32",
+    "experiments/compiled_protocol.json": "5e4a855e512c493c0459d598739cfc2d1331b1c0bb05811e2a7b6d6a127f1815"
+  },
+  "scope": "single local engineering measurement; caching is not a novel evaluation method"
+}

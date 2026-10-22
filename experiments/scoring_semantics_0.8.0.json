@@ -1,0 +1,20 @@
+{
+  "schema": "robustband.scoring_semantics/v1",
+  "frozen_source_revision": "214e749",
+  "supersedes": "scoring_semantics_0.4.0.json",
+  "change_note": "core.py now prepares parse results and item correctness once per protocol family instead of once per protocol. Scoring semantics are unchanged: parsers, metrics, aggregators, claims and exact rational code are byte-identical to 0.4.0, and the cached path is checked against a per-protocol reference in tests/test_engine.py::test_cached_scoring_matches_a_per_protocol_reference.",
+  "default_family": {
+    "parses": 5,
+    "metrics": 4,
+    "aggregators": 4,
+    "configs": 80
+  },
+  "source_sha256_lf": {
+    "robustband/core.py": "5a2ce2f749f0451accd8ebdcc13572d79cb28e6e677d0a2802a3be6642052bbe",
+    "robustband/parsers.py": "e2d94b1d8ee4b6576415f6a2cbc7fbfca3c9a0865a404435d8778f1109710cac",
+    "robustband/metrics.py": "bc3df4721a7be99ccfa614d789ac4e43782945f7fe8c23496eb9a8a2632ff617",
+    "robustband/aggregate.py": "b1a72332221ac48d14174b0901031bae7751da4f7b6f05e24f599b93eda70274",
+    "robustband/claim.py": "ac3663ce32bbe3f9ba5a0c049c5db4e0ab7c1f1eb7043ce9365f5dabf0ccc3b6",
+    "robustband/rational.py": "db0661fff0e18085e3fb5e47c0be0676ac0e09358a2f442ea60c47345474d052"
+  }
+}

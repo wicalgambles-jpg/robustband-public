@@ -1,0 +1,134 @@
+{
+  "schema": "robustband.github_ci/v1",
+  "date": "2026-10-13",
+  "repository": "wicalgambles-jpg/robustband",
+  "repository_visibility": "private",
+  "run_id": 38334385938,
+  "run_url": "https://github.com/wicalgambles-jpg/robustband/actions/runs/38334385938",
+  "head_sha": "784dc631155caef027c75e414b63bc32a6bc33a5",
+  "event": "pull_request",
+  "conclusion": "success",
+  "jobs": [
+    {
+      "id": 115091086520,
+      "name": "offline wheel and source distribution",
+      "labels": [
+        "ubuntu-latest"
+      ],
+      "runner_name": "GitHub Actions 1000000001",
+      "conclusion": "success",
+      "started_at": "2026-10-13T01:54:53Z",
+      "completed_at": "2026-10-13T01:55:15Z",
+      "html_url": "https://github.com/wicalgambles-jpg/robustband/actions/runs/38334385938/job/115091086520"
+    },
+    {
+      "id": 115091086725,
+      "name": "tests (py3.9)",
+      "labels": [
+        "windows-latest"
+      ],
+      "runner_name": "GitHub Actions 1000000003",
+      "conclusion": "success",
+      "started_at": "2026-10-13T01:54:53Z",
+      "completed_at": "2026-10-13T01:56:54Z",
+      "html_url": "https://github.com/wicalgambles-jpg/robustband/actions/runs/38334385938/job/115091086725"
+    },
+    {
+      "id": 115091086766,
+      "name": "tests (py3.11)",
+      "labels": [
+        "ubuntu-latest"
+      ],
+      "runner_name": "GitHub Actions 1000000002",
+      "conclusion": "success",
+      "started_at": "2026-10-13T01:54:53Z",
+      "completed_at": "2026-10-13T01:55:13Z",
+      "html_url": "https://github.com/wicalgambles-jpg/robustband/actions/runs/38334385938/job/115091086766"
+    },
+    {
+      "id": 115091086786,
+      "name": "tests (py3.9)",
+      "labels": [
+        "macos-latest"
+      ],
+      "runner_name": "GitHub Actions 1000000000",
+      "conclusion": "success",
+      "started_at": "2026-10-13T01:55:06Z",
+      "completed_at": "2026-10-13T01:56:12Z",
+      "html_url": "https://github.com/wicalgambles-jpg/robustband/actions/runs/38334385938/job/115091086786"
+    },
+    {
+      "id": 115091086801,
+      "name": "tests (py3.11)",
+      "labels": [
+        "macos-latest"
+      ],
+      "runner_name": "GitHub Actions 1000000005",
+      "conclusion": "success",
+      "started_at": "2026-10-13T01:55:20Z",
+      "completed_at": "2026-10-13T01:55:50Z",
+      "html_url": "https://github.com/wicalgambles-jpg/robustband/actions/runs/38334385938/job/115091086801"
+    },
+    {
+      "id": 115091086837,
+      "name": "tests (py3.13)",
+      "labels": [
+        "macos-latest"
+      ],
+      "runner_name": "GitHub Actions 1000000004",
+      "conclusion": "success",
+      "started_at": "2026-10-13T01:55:00Z",
+      "completed_at": "2026-10-13T01:55:36Z",
+      "html_url": "https://github.com/wicalgambles-jpg/robustband/actions/runs/38334385938/job/115091086837"
+    },
+    {
+      "id": 115091086867,
+      "name": "tests (py3.9)",
+      "labels": [
+        "ubuntu-latest"
+      ],
+      "runner_name": "GitHub Actions 1000000007",
+      "conclusion": "success",
+      "started_at": "2026-10-13T01:55:37Z",
+      "completed_at": "2026-10-13T01:56:24Z",
+      "html_url": "https://github.com/wicalgambles-jpg/robustband/actions/runs/38334385938/job/115091086867"
+    },
+    {
+      "id": 115091086875,
+      "name": "tests (py3.13)",
+      "labels": [
+        "windows-latest"
+      ],
+      "runner_name": "GitHub Actions 1000000006",
+      "conclusion": "success",
+      "started_at": "2026-10-13T01:55:16Z",
+      "completed_at": "2026-10-13T01:55:54Z",
+      "html_url": "https://github.com/wicalgambles-jpg/robustband/actions/runs/38334385938/job/115091086875"
+    },
+    {
+      "id": 115091086880,
+      "name": "tests (py3.11)",
+      "labels": [
+        "windows-latest"
+      ],
+      "runner_name": "GitHub Actions 1000000009",
+      "conclusion": "success",
+      "started_at": "2026-10-13T01:55:56Z",
+      "completed_at": "2026-10-13T01:56:54Z",
+      "html_url": "https://github.com/wicalgambles-jpg/robustband/actions/runs/38334385938/job/115091086880"
+    },
+    {
+      "id": 115091086888,
+      "name": "tests (py3.13)",
+      "labels": [
+        "ubuntu-latest"
+      ],
+      "runner_name": "GitHub Actions 1000000008",
+      "conclusion": "success",
+      "started_at": "2026-10-13T01:55:52Z",
+      "completed_at": "2026-10-13T01:56:14Z",
+      "html_url": "https://github.com/wicalgambles-jpg/robustband/actions/runs/38334385938/job/115091086888"
+    }
+  ],
+  "scope": "Executed remote CI and isolated distribution checks; not independent human scientific review or adoption"
+}

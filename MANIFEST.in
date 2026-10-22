@@ -1,0 +1,26 @@
+include README.md TUTORIAL.md CONTRIBUTING.md CHANGELOG.md THIRD_PARTY_NOTICES.md LICENSE
+include start_robustband.cmd
+include start_professional.cmd start_generalized.cmd
+include _detect_python.cmd
+include WELCOME.html
+include SECURITY.md
+recursive-include robustband *.py
+recursive-include robustband *.html
+recursive-include tests *.py
+recursive-include demo *.py *.json *.jsonl
+recursive-include examples *.py *.json *.jsonl *.txt
+recursive-include examples *.yml
+recursive-include experiments *.py *.json
+recursive-include experiments *.cjs
+recursive-include results *.json
+recursive-include docs *.md *.py
+recursive-include submission *.py
+prune demo/models
+prune demo/data/_archive
+prune results/_archive
+global-exclude *.py[cod] __pycache__ .coverage *.log *.aux *.out *.sty
+exclude results/distribution_check_*.json results/submission_bundle_*.json
+exclude results/manuscript_build_*.json
+exclude results/quality_gate_0.4*.json results/quality_gate_0.5*.json results/quality_gate_0.6*.json results/quality_gate_0.7*.json results/quality_gate_0.8*.json
+exclude results/review_dual_development_2026-10-12.json results/review_dual_held_out_2026-10-12.json
+exclude docs/math_dl_transfer.md

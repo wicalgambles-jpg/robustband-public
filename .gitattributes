@@ -1,0 +1,5 @@
+* text=auto eol=lf
+*.cmd text eol=crlf
+# Preserve external source bytes; source manifests also record normalized LF hashes.
+examples/data/evalscope/**/*.jsonl -text
+examples/data/evalscope/LICENSE-APACHE-2.0.txt -text

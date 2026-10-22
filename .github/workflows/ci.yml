@@ -1,0 +1,158 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.event_name }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    name: tests (${{ matrix.os }}, py${{ matrix.python-version }})
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+        python-version: ["3.9", "3.11", "3.13"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Install (editable, with dev extras)
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -e ".[dev]"
+      - name: Verify zero runtime dependencies
+        run: |
+          python -c "import robustband, sys; print('robustband', robustband.__version__); bad=[m for m in ('numpy','scipy','pandas','sklearn','torch','datasets','transformers') if m in sys.modules]; print('third-party modules imported:', bad); sys.exit(1 if bad else 0)"
+          python -c "import importlib.metadata as md, sys; req=[r for r in (md.requires('robustband') or []) if 'extra ==' not in r]; print('runtime requirements:', req); sys.exit(1 if req else 0)"
+          python -S -c "import robustband; print('imports with site-packages disabled (-S):', robustband.__version__)"
+      - name: Run tests
+        run: python -m pytest -q
+      - name: Test coverage of the package
+        run: |
+          python -m coverage run -m pytest -q
+          python -m coverage report -m --fail-under=100
+      - name: Verify the tooling certificate (independent recompute)
+        run: |
+          python demo/tooling_certificate.py
+          python demo/verify_tooling_certificate.py
+      - name: Verify external integration and standalone review proofs offline
+        run: |
+          python -S experiments/external_cases.py --verify results/external_cases_1.0.0.json
+          python -S experiments/review_dual_benchmark.py --verify results/review_dual_held_out_public_1.0.0.json
+
+  ui:
+    name: local UI smoke (headless Chromium)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Install the package
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -e ".[dev]"
+      - name: Locate a Chromium browser
+        run: |
+          for name in google-chrome chromium chromium-browser; do
+            if command -v "$name" >/dev/null 2>&1; then echo "browser: $(command -v "$name")"; fi
+          done
+      - name: Smoke the local app in headless Chromium
+        run: |
+          node experiments/ui_browser_smoke.cjs
+          node experiments/ui_browser_smoke.cjs --professional
+          node experiments/ui_browser_smoke.cjs --extension
+          node experiments/decision_browser_smoke.cjs
+          node experiments/decision_browser_smoke.cjs --professional
+          node experiments/matrix_browser_smoke.cjs
+      - name: Keep the smoke receipts
+        uses: actions/upload-artifact@v4
+        with:
+          name: decision-ui-smoke
+          path: |
+            results/decision_ui_*.json
+            results/matrix_ui_*.json
+            results/local_ui_smoke_*.json
+          if-no-files-found: error
+
+  converters:
+    name: NPZ converter acceptance (${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+      - run: python -m pip install numpy
+      - run: python experiments/validate_converters.py
+      - uses: actions/upload-artifact@v4
+        with:
+          name: converter-${{ matrix.os }}
+          path: results/converter_acceptance_1.0.0.json
+
+  portable:
+    name: Windows portable executable
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+      - run: python -m pip install pyinstaller
+      - run: python submission/build_portable.py
+      - run: python submission/verify_portable.py
+      - uses: actions/upload-artifact@v4
+        with:
+          name: robustband-windows-portable
+          path: |
+            dist/robustband-1.0.0-windows-x64.zip
+            results/portable_build_1.0.0.json
+            results/portable_acceptance_1.0.0.json
+
+  distribution:
+    name: offline wheel and source distribution
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install development build tools
+        run: python -m pip install "setuptools>=77" build
+      - name: Build and verify isolated offline installs
+        run: python submission/verify_release.py
+      - name: Build the offline API reference
+        run: python docs/build_api_docs.py docs/api
+      - name: Rebuild and verify the no-install example page
+        run: |
+          python -S submission/build_welcome.py build/welcome-generalized.html --include-lab
+          python -S submission/build_welcome.py build/welcome-professional.html --edition professional
+      - name: Preserve the verified distribution artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: robustband-1.0.0-linux-distributions
+          path: |
+            dist/robustband-1.0.0-py3-none-any.whl
+            dist/robustband-1.0.0.tar.gz
+            results/distribution_check_1.0.0.json
+            build/welcome-generalized.html
+            build/welcome-professional.html
+            docs/api/
+          if-no-files-found: error

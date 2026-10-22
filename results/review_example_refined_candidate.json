@@ -1,0 +1,106 @@
+{
+  "domain": "candidate",
+  "n_items": 24,
+  "human_labels_provided": false,
+  "planner": "refined",
+  "completion_certificate": {
+    "schema": "robustband.review_certificate/v1",
+    "problem_digest": "26aecfb5f0868493fb6194cfff82c2804762cb465f84cd05cd0fa1ba4d3c2532",
+    "assumptions": [
+      "trusted reviews are correct",
+      "input rows represent the same items in both arms",
+      "trusted differences lie inside candidate scorer extrema; consensus is not validated"
+    ],
+    "threshold": "0",
+    "reviewed": {},
+    "target_bounds": {
+      "micro": [
+        "-1/8",
+        "1/8"
+      ],
+      "macro_class": [
+        "-59/600",
+        "37/300"
+      ],
+      "macro_len": [
+        "-17/104",
+        "4/39"
+      ]
+    },
+    "status": "NEEDS_REVIEW"
+  },
+  "review_plan": {
+    "schema": "robustband.review_plan/v1",
+    "problem_digest": "26aecfb5f0868493fb6194cfff82c2804762cb465f84cd05cd0fa1ba4d3c2532",
+    "reviewed_ids": [],
+    "selected_ids": [
+      "gsm8k-test-0000",
+      "gsm8k-test-0001",
+      "gsm8k-test-0006",
+      "gsm8k-test-0010",
+      "gsm8k-test-0022"
+    ],
+    "n_reviews": 5,
+    "epsilon": "1/20",
+    "query_lower_bound": 5,
+    "residual_widths": {
+      "micro": "1/24",
+      "macro_class": "1/40",
+      "macro_len": "1/52"
+    },
+    "width_guaranteed": true,
+    "optimality": "MINIMUM_CARDINALITY",
+    "method": "shared_price_group_search",
+    "search": {
+      "algorithm": "integer_surrogate_grouped/v1",
+      "node_budget": 5000,
+      "exchange_budget": 20000,
+      "exchange_checks": 0,
+      "portfolio_reviews": 5,
+      "heuristic_reviews": 5,
+      "nodes_visited": 0,
+      "contribution_groups": 5,
+      "binding_targets": 3,
+      "integer_scale_bits": 13,
+      "root_lower_bound": 5,
+      "budget_exhausted": false,
+      "search_proved_optimal": true,
+      "dual": {
+        "pricing_rounds": 8,
+        "pricing_skipped": true,
+        "search_directions": 0,
+        "proposed_directions": 0,
+        "pricing_reviews": 5,
+        "target_prices": [
+          "24",
+          "0",
+          "0"
+        ]
+      }
+    },
+    "optimality_gap": 0,
+    "lower_bound_certificate": {
+      "schema": "robustband.review_lower_bound/v1",
+      "problem_digest": "26aecfb5f0868493fb6194cfff82c2804762cb465f84cd05cd0fa1ba4d3c2532",
+      "epsilon": "1/20",
+      "reviewed": {},
+      "target_prices": {
+        "micro": "24",
+        "macro_class": "0",
+        "macro_len": "0"
+      },
+      "retained_upper_bound": "96/5",
+      "query_lower_bound": 5
+    }
+  },
+  "fixed_scorer_diagnostic": {
+    "measurement": "last_line_num|exact_match",
+    "independent_human_adjudication": false,
+    "target_margins": {
+      "micro": "1/24",
+      "macro_class": "13/200",
+      "macro_len": "-1/24"
+    },
+    "status": "TARGET_CONFLICT"
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "schema": "robustband.decision_browser/v1",
+  "software_version": "0.7.0",
+  "edition": "generalized",
+  "browser": "Edg/148.0.3967.54",
+  "checked": [
+    "comparison-to-adoption navigation",
+    "explicit synthetic label",
+    "separate target criteria",
+    "exact replay downloads",
+    "criteria invalidation",
+    "language switch",
+    "mobile width",
+    "objective tradeoff explanation",
+    "wide-column mapping",
+    "unit and direction binding",
+    "strict and inclusive threshold boundary",
+    "saved criteria reuse",
+    "own-data criteria",
+    "HTML-safe uploaded metric labels",
+    "duplicate-ID rejection",
+    "segmentation primary plus class guardrail",
+    "percentage-point threshold scaling"
+  ],
+  "script_exceptions": [],
+  "independent_human_user": false,
+  "source_sha256": {
+    "robustband/decision.html": "8413d5260e7a0029719d83ed9526f217d9c10c1594c1044f87ac42c32ea2d6e9",
+    "experiments/decision_browser_smoke.cjs": "4f74a202114c64f54a728de86dd4ff57f6fc3c99dcca06d8f348ddbd276a3082"
+  }
+}
