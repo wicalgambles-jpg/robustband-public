@@ -32,8 +32,8 @@
   "script_exceptions": [],
   "independent_human_user": false,
   "source_sha256_lf": {
-    "robustband/ui.html": "55c70087794b3819231e571ba1c970903c71453e077401ada94c0576cbbfdc66",
-    "experiments/ui_browser_smoke.cjs": "191da36f959060f624b811a28c4c9e774627e66b9a3c83b32d0f9a3a6c6032d1"
+    "robustband/ui.html": "cccfa203937fe1457aaefa8a1144fb368948f777eca1f62b69b34e062454f875",
+    "experiments/ui_browser_smoke.cjs": "57d1290e8453d82dce3f27b48a6ee3671ffec03638c6c3bcd5dbe9b31ef8b7c7"
   },
   "screenshots": {
     "build/local-ui-professional-desktop.png": "382743e195ba8b7532af8762c2239900ccce99dcebca2a983bf84519c2f96d2b",
@@ -41,7 +41,7 @@
   },
   "standalone_preview": {
     "filename": "WELCOME-professional.html",
-    "sha256": "fa172922d76625f6f545cbc6414b526f479f3772ae206b150f414e34a22aaf95",
+    "sha256": "557b222e1599ff8fa8495c56190c65c13c9dc651e1d892e358b6f2ef7f732387",
     "http_requests": 0,
     "checked": [
       "file-open preview",

@@ -36,8 +36,8 @@
   "script_exceptions": [],
   "independent_human_user": false,
   "source_sha256_lf": {
-    "robustband/ui.html": "55c70087794b3819231e571ba1c970903c71453e077401ada94c0576cbbfdc66",
-    "experiments/ui_browser_smoke.cjs": "191da36f959060f624b811a28c4c9e774627e66b9a3c83b32d0f9a3a6c6032d1"
+    "robustband/ui.html": "cccfa203937fe1457aaefa8a1144fb368948f777eca1f62b69b34e062454f875",
+    "experiments/ui_browser_smoke.cjs": "57d1290e8453d82dce3f27b48a6ee3671ffec03638c6c3bcd5dbe9b31ef8b7c7"
   },
   "screenshots": {
     "build/local-ui-desktop.png": "1fe3f6265c7c629fb947f5a22f3c88096801e64b3baa8a7cc421a6f777c2c940",
@@ -45,7 +45,7 @@
   },
   "standalone_preview": {
     "filename": "WELCOME.html",
-    "sha256": "ae068acfc7693d35a6fa938a37e5764200ce63c39fb2387af4e8d5d682f6982c",
+    "sha256": "00eb5e460b83ebcfcb526d1cf618636b204b5f897081dd8ff6430dc660b9b950",
     "http_requests": 0,
     "checked": [
       "file-open preview",

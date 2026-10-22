@@ -142,6 +142,7 @@ async function main(){
     assert(await evaluate('document.getElementById("run").disabled && document.getElementById("modelA").disabled'),'Preview allowed changes it cannot calculate');
     await evaluate('document.getElementById("useDataNext").click()');
     assert(await evaluate('document.getElementById("setupDialog").open && document.getElementById("launchCommand").textContent.includes(options.edition)'),'No-install page omitted real-data setup');
+    assert(await evaluate('/portable|便携/.test(document.getElementById("setupDialog").textContent)'), 'Own-data setup omitted the no-Python portable option');
     await evaluate('document.querySelector("[data-close=setupDialog]").click()');
     if(!professional){
       for(const kind of ['segmentation','scores','measurement_lab']){
