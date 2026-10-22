@@ -3,6 +3,18 @@
 All notable changes to `robustband` are documented here.
 This project adheres to [Semantic Versioning](https://semver.org/).
 
+## [1.0.1] - 2026-10-22
+
+- Fix FR-01: resource-grid v2 records `bytes_lf` and `sha256_lf` from identical
+  normalized bytes; LF and CRLF inputs reproduce the same complete receipt/hash.
+- Add a real-input LF/CRLF comparison and a same-length-content-change regression.
+- Run the actual `check_quality.py` release gate in every OS/Python CI test job,
+  retaining resource/quality receipts and logs.
+- Write active release receipts as UTF-8/LF through atomic replacement.
+- Document the frozen `exact_match` numeric tolerance and scope historical timing
+  figures by their date/environment. Numerical scoring semantics are unchanged.
+- Preserve 1.0.0 history and document its resource-replay verification gap.
+
 ## [1.0.0] - 2026-10-21
 
 - Validated CSV/JSONL conversion for paired text, numeric scores, confusion counts

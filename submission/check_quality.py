@@ -19,6 +19,7 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 
 from robustband import __version__  # noqa: E402
+from robustband.storage import write_json_atomic
 
 
 def digest(path):
@@ -47,6 +48,7 @@ def main():
         ["-m", "robustband", "verify", matrix_output + "/report.json"],
         ["-S", "experiments/external_cases.py", "--verify", "results/external_cases_%s.json" % __version__],
         ["-S", "experiments/resource_grid.py", "--verify", "results/resource_grid_%s.json" % __version__],
+        ["-S", "experiments/check_resource_portability.py"],
         ["-S", "experiments/review_dual_benchmark.py", "--verify", "results/review_dual_held_out_public_1.0.0.json"],
         ["demo/verify_tooling_certificate.py"],
         ["demo/verify_certificate.py"],
@@ -80,8 +82,7 @@ def main():
               "matrix_cli_verified": True,
               "source_sha256_lf": {str(path).replace("\\", "/"): digest(ROOT / path) for path in sources},
               "limits": "Automated local checks; not independent human scientific validation or remote CI evidence"}
-    (ROOT / "results" / ("quality_gate_%s.json" % __version__)).write_text(json.dumps(report, indent=2) + "\n",
-                                                                           encoding="utf-8")
+    write_json_atomic(ROOT / "results" / ("quality_gate_%s.json" % __version__), report)
     print("PASS: %d tests; %d/%d statements; matrix CLI; two artifact verifiers; external cases; "
           "review proofs; SPDX; %s" % (counts["tests"], coverage["covered_lines"], coverage["num_statements"],
                                        semantics_path.name))

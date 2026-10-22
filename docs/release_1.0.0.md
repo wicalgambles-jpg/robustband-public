@@ -1,5 +1,13 @@
 # 1.0.0 evaluation and release scope
 
+**Reproducibility correction, 2026-10-22:** FR-01 showed that the resource-grid v1
+receipt fails strict replay on an LF checkout because it records a physical file
+size alongside an LF-normalized hash. The original 14 CI jobs did not execute
+the full `check_quality.py` gate. Its local pass therefore did not establish
+checkout-independent resource replay. Version [1.0.1](release_1.0.1.md) fixes
+the metadata contract and runs the actual gate in CI. Main audit/scoring results
+are unchanged. The original 1.0.0 tag and receipts remain available.
+
 Date: 2026-10-21. The release preserves the frozen 0.8.0 numerical scoring sources.
 The main workflows are paired comparison, adoption criteria and multi-model
 ranking. Review planning and compiled-score experiments retain their separate

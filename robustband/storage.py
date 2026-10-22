@@ -1,6 +1,7 @@
 # SPDX-License-Identifier: MIT
 """Stage UTF-8 artifacts and replace individual files without truncating them."""
 import os
+import json
 from pathlib import Path
 import tempfile
 
@@ -22,3 +23,8 @@ def write_text_atomic(path, text):
         if temporary is not None and temporary.exists():
             temporary.unlink()
     return path
+
+
+def write_json_atomic(path, value):
+    """Write UTF-8 JSON with LF line endings and reject nonstandard numbers."""
+    return write_text_atomic(path, json.dumps(value, ensure_ascii=False, indent=2, allow_nan=False) + '\n')

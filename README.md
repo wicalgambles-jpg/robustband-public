@@ -2,7 +2,7 @@
 
 **Maintainer:** Zengzhao Gao (Harbin Engineering University, China) — wicalgambles@gmail.com
 · ORCID [0009-0007-9138-4642](https://orcid.org/0009-0007-9138-4642)
-· **License:** MIT · **Version:** 1.0.0 · **Zero runtime dependencies** · Python ≥ 3.9
+· **License:** MIT · **Version:** 1.0.1 · **Zero runtime dependencies** · Python ≥ 3.9
 
 `robustband` compares two sets of results on the same samples across scoring
 rules you choose. It shows **who leads, the margin range, and whether the conclusion
@@ -121,7 +121,7 @@ The original 0.5.0 release is retained as an archived baseline.
 
 ## Domain applications
 
-Version 1.0.0 provides three adapters through the same browser, report and replay
+Version 1.0.1 provides three adapters through the same browser, report and replay
 workflow. Choose a data card, download its template and declare the target:
 
 | Domain | Input | What is audited |
@@ -190,7 +190,7 @@ an algebraic check on the aggregation code. New independent items can change the
 ```bash
 python -m pip install -e .        # editable, from the repo root
 # Or install the downloaded release wheel offline:
-python -m pip install --no-index --no-deps robustband-1.0.0-py3-none-any.whl
+python -m pip install --no-index --no-deps robustband-1.0.1-py3-none-any.whl
 ```
 
 After installation, `robustband ui` and `python -m robustband ui` are equivalent.
@@ -251,8 +251,10 @@ print(all(x["same"] for x in reps))         # True -> endpoints bit-identical un
 ```
 
 The endpoints agree with the float engine (`≤1e-12`) and are **invariant under item
-replication**. Numeric item judgments are made on exact finite decimal values; the
-reported `Fraction` endpoints also aggregate exactly.
+replication**. Numeric comparisons use exact finite decimal arithmetic. The frozen
+`exact_match` rule accepts normalized text equality or a numeric difference of at
+most `1e-9`; `numeric_tol` uses its declared tolerance (default `1e-3`). Reported
+`Fraction` endpoints aggregate exactly. See [metric semantics](docs/metric_semantics.md).
 
 ## The certificate (four bound layers)
 
@@ -295,7 +297,7 @@ the edge branches (blank-only parses, `\boxed{}` extraction and fallback, numeri
 equal strings, empty-side F1, macro aggregation without a meta key, empty margins,
 empty family rejection).
 
-**Release checks.** See the [1.0.0 evaluation](docs/release_1.0.0.md) and
+**Release checks.** See the [1.0.1 evaluation](docs/release_1.0.1.md) and
 version-bound receipts in `results/` for executed test and coverage totals. These include paired-input
 validation, report replay, command exits, ranking audits and actual local HTTP requests. Two
 automated browser checks drive the app in headless Chromium (Node ≥ 22): one for the
@@ -362,9 +364,11 @@ two candidate capabilities built on established algorithms:
   conflicts that further item review cannot reconcile. Default domains allow every
   binary-score difference; narrower candidate domains are explicitly conditional.
 - `robustband.compiled.CompiledScores`: snapshot parsing and item scores once,
-  then reuse them for paired resampling with the existing aggregators. On one local
-  2,000-resample benchmark it took 0.85 s including compilation versus 170.28 s for
-  repeated raw-text scoring, with every serialized Band field identical.
+  then reuse them for paired resampling with the existing aggregators. The archived
+  2026-10-12 measurement (Python 3.13.14, Windows 11) took 0.85 s including compilation
+  versus 170.28 s for repeated raw-text scoring on 2,000 resamples, with every
+  serialized Band field identical. Timings and speedup depend on the environment;
+  rerun `python experiments/compiled_benchmark.py` for a local measurement.
 
 The first review experiment has modest gains: 6.95 versus 7.01 reviews for greedy
 on 100 synthetic cases. The follow-up `ReviewProblem.plan_optimized` uses exact
@@ -410,12 +414,12 @@ See [the offline tutorial and limitations](docs/external_cases.md) and
 [the release and deployment mechanics](docs/github_deployment.md).
 
 ```bash
-python -S experiments/external_cases.py --verify results/external_cases_1.0.0.json
+python -S experiments/external_cases.py --verify results/external_cases_1.0.1.json
 ```
 
 Historical integration and timing reports retain their source hashes.
 Verify the 0.4.0/0.4.1 integration artifacts at their respective tags; current
-commands verify the 1.0.0 artifact with the same numerical readings.
+commands verify the 1.0.1 artifact with the same numerical readings.
 
 ## Reproduce the headline readings
 
@@ -432,7 +436,7 @@ python tooling_certificate.py && python verify_tooling_certificate.py
   title  = {robustband: the score you report is a band, not a point},
   author = {Gao, Zengzhao},
   year   = {2026},
-  version = {1.0.0},
+  version = {1.0.1},
   note   = {Instrument for certified stability bands of benchmarking claims},
   url    = {https://github.com/wicalgambles-jpg/robustband-public}
 }

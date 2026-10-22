@@ -1,6 +1,6 @@
 {
   "schema": "robustband.tooling_certificate/v2",
-  "robustband_version": "1.0.0",
+  "robustband_version": "1.0.1",
   "data_sources": {
     "items": {
       "path": "demo/data/items.json",

@@ -312,7 +312,7 @@ def main():
     }
     os.makedirs(RESULTS, exist_ok=True)
     op = os.path.join(RESULTS, "tooling_certificate.json")
-    with open(op, "w", encoding="utf-8") as f:
+    with open(op, "w", encoding="utf-8", newline="\n") as f:
         json.dump(cert, f, ensure_ascii=False, indent=2)
     print(f"[written] {op}")
     return 0

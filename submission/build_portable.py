@@ -12,6 +12,7 @@ import sysconfig
 ROOT=Path(__file__).resolve().parents[1]
 sys.path.insert(0,str(ROOT))
 from robustband import __version__
+from robustband.storage import write_json_atomic
 
 
 def main():
@@ -46,7 +47,7 @@ def main():
         'sha256':sha256(archive.read_bytes()).hexdigest(),'bytes':archive.stat().st_size,
         'runtime_python_installation_required':False,'optional_numpy_cupy_bundled':False,
         'source_files_included_for_replay':True,'signed':False}
-    (ROOT/'results'/('portable_build_%s.json'%__version__)).write_text(json.dumps(receipt,indent=2)+'\n',encoding='utf-8')
+    write_json_atomic(ROOT/'results'/('portable_build_%s.json'%__version__), receipt)
     print('Built '+archive.name)
 
 

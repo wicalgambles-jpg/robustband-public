@@ -31,8 +31,9 @@ from robustband.metrics import METRIC  # noqa: E402
 from robustband.aggregate import AGG  # noqa: E402
 from robustband.rational import item_correct_and_certain, score_frac  # noqa: E402
 from robustband.report_style import page, safe, table  # noqa: E402
+from robustband.storage import write_json_atomic, write_text_atomic  # noqa: E402
 
-SCHEMA = "robustband.resource_grid/v1"
+SCHEMA = "robustband.resource_grid/v2"
 SOURCES = ROOT / "experiments" / "resource_sources.json"
 WIDTH_GATE = Fraction(1, 10)          # R-B2 threshold: 0.10 of the score range
 SCALE_MODELS = 8                       # R-B1a
@@ -86,7 +87,8 @@ def load_sources(manifest=SOURCES):
         records = {}
         for model, relative in benchmark["files"].items():
             path = ROOT / relative
-            files[relative] = {"sha256_lf": _digest(path), "bytes": path.stat().st_size}
+            data_lf = path.read_bytes().replace(b"\r\n", b"\n")
+            files[relative] = {"sha256_lf": sha256(data_lf).hexdigest(), "bytes_lf": len(data_lf)}
             if kind == "demo_raw":
                 records[model] = _demo_records(path)
             else:
@@ -303,9 +305,9 @@ def main():
         print("VERIFY PASS: axes, exact scores, bands, pairs and gates recomputed")
         return
     args.output.parent.mkdir(parents=True, exist_ok=True)
-    args.output.write_text(json.dumps(result, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    write_json_atomic(args.output, result)
     html_path = args.html or args.output.with_suffix(".html")
-    html_path.write_text(render(result), encoding="utf-8")
+    write_text_atomic(html_path, render(result))
     print(json.dumps({"schema": result["schema"], "models": result["summary"]["n_models"],
                       "benchmarks": result["summary"]["n_benchmarks"],
                       "flipping_pairs": result["summary"]["flipping_pairs"],

@@ -20,6 +20,7 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 
 from robustband import __version__ as VERSION  # noqa: E402
+from robustband.storage import write_json_atomic
 
 SMOKE = r'''
 import importlib.metadata as md
@@ -151,6 +152,9 @@ def main():
                  "-S", "experiments/external_cases.py", "--verify", "results/external_cases_%s.json" % VERSION], source)
         command([sys.executable, "-S", "experiments/review_dual_benchmark.py", "--verify",
                  "results/review_dual_held_out_public_1.0.0.json"], source)
+        command([sys.executable, "-S", "experiments/resource_grid.py", "--verify",
+                 "results/resource_grid_%s.json" % VERSION], source)
+        command([sys.executable, "-S", "experiments/check_resource_portability.py"], source)
     report = {"schema": "robustband.distribution_check/v1", "version": VERSION,
               "platform": platform.platform(), "python": platform.python_version(),
               "wheel": {"filename": wheel.name, "sha256": sha256(wheel.read_bytes()).hexdigest(),
@@ -158,10 +162,10 @@ def main():
               "sdist": {"filename": sdist.name, "sha256": sha256(sdist.read_bytes()).hexdigest(),
                         "bytes": sdist.stat().st_size, "members": len(source_members),
                         "rebuilt_wheel_fresh_offline_install": sdist_check,
-                        "external_cases_offline_replayed": True, "review_root_proofs_replayed": True},
+                        "external_cases_offline_replayed": True, "review_root_proofs_replayed": True,
+                        "resource_grid_offline_replayed": True, "lf_crlf_resource_replayed": True},
               "scope": "Build and fresh offline installs on the reported platform, isolated from checkout; no package publication"}
-    (ROOT / "results" / ("distribution_check_%s.json" % VERSION)).write_text(json.dumps(report, indent=2) + "\n",
-                                                                            encoding="utf-8")
+    write_json_atomic(ROOT / "results" / ("distribution_check_%s.json" % VERSION), report)
     print(json.dumps(report))
 
 

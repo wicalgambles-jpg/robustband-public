@@ -14,6 +14,7 @@ import sys
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 import robustband as rb
+from robustband.storage import write_json_atomic
 from robustband.compiled import CompiledScores
 from robustband.review import ReviewProblem, from_predictions, linear_target
 from demo.ref_impl import ref_parse, ref_metric
@@ -139,7 +140,7 @@ def main():
         assert result == json.loads(args.verify.read_text(encoding="utf-8")), "report mismatch"
         print("VERIFY PASS: source identity, alignment, exact margins and review certificates")
     else:
-        args.output.write_text(json.dumps(result, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+        write_json_atomic(args.output, result)
         for name, case in result["cases"].items():
             print(name, case["band"]["exact_band"], case["band"]["verdict"],
                   {k: v["review_plan"]["n_reviews"] for k, v in case["review"].items() if k != "epsilon"})

@@ -47,7 +47,7 @@ building machine needs build tools; the library itself has no runtime dependenci
 
 | job | platforms | what it proves |
 |---|---|---|
-| `test` | Ubuntu / Windows / macOS × Python 3.9, 3.11, 3.13 | tests, 100% coverage, no third-party import, offline certificate replay, external-case and review-proof replay |
+| `test` | Ubuntu / Windows / macOS × Python 3.9, 3.11, 3.13 | complete `check_quality.py` gate: tests, 100% coverage, resource-grid replay, real-input LF/CRLF comparison, certificates, source identities and external/review proof replay |
 | `ui` | Ubuntu, Node 22 + Chromium | both adoption pages and the ranking page in a real browser |
 | `distribution` | Ubuntu | builds the distributions, verifies fresh offline installs, rebuilds the preview and the API reference |
 | `converters` | Ubuntu / Windows | optional NumPy NPZ conversion acceptance cases |

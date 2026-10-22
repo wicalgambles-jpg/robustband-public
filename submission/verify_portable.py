@@ -15,6 +15,7 @@ import time
 ROOT=Path(__file__).resolve().parents[1]
 sys.path.insert(0,str(ROOT))
 from robustband import __version__
+from robustband.storage import write_json_atomic
 from robustband.decision import EXAMPLE, EXAMPLE_MAPPING, EXAMPLE_PLAN
 
 
@@ -76,7 +77,7 @@ def main():
         'source_sha256_lf':{str(p.relative_to(ROOT)).replace('\\','/'):sha256(p.read_bytes().replace(b'\r\n',b'\n')).hexdigest()
             for p in (Path(__file__),ROOT/'submission/build_portable.py',ROOT/'submission/portable_entry.py')},
         'scope':'Executed portable core with system-only PATH on this Windows host. Not a virtual machine or a separate physical host.'}
-    (ROOT/'results'/('portable_acceptance_%s.json'%__version__)).write_text(json.dumps(receipt,indent=2)+'\n',encoding='utf-8')
+    write_json_atomic(ROOT/'results'/('portable_acceptance_%s.json'%__version__), receipt)
     print('PASS: %d portable checks, no Python on PATH'%len(checked))
 
 

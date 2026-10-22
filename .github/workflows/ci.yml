@@ -36,20 +36,18 @@ jobs:
           python -c "import robustband, sys; print('robustband', robustband.__version__); bad=[m for m in ('numpy','scipy','pandas','sklearn','torch','datasets','transformers') if m in sys.modules]; print('third-party modules imported:', bad); sys.exit(1 if bad else 0)"
           python -c "import importlib.metadata as md, sys; req=[r for r in (md.requires('robustband') or []) if 'extra ==' not in r]; print('runtime requirements:', req); sys.exit(1 if req else 0)"
           python -S -c "import robustband; print('imports with site-packages disabled (-S):', robustband.__version__)"
-      - name: Run tests
-        run: python -m pytest -q
-      - name: Test coverage of the package
-        run: |
-          python -m coverage run -m pytest -q
-          python -m coverage report -m --fail-under=100
-      - name: Verify the tooling certificate (independent recompute)
-        run: |
-          python demo/tooling_certificate.py
-          python demo/verify_tooling_certificate.py
-      - name: Verify external integration and standalone review proofs offline
-        run: |
-          python -S experiments/external_cases.py --verify results/external_cases_1.0.0.json
-          python -S experiments/review_dual_benchmark.py --verify results/review_dual_held_out_public_1.0.0.json
+      - name: Run the complete release-quality gate from the checkout
+        run: python submission/check_quality.py
+      - name: Keep quality and newline-portability evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: quality-${{ matrix.os }}-py${{ matrix.python-version }}
+          path: |
+            results/quality_gate_1.0.1.json
+            build/resource_portability_1.0.1.json
+            build/pytest.xml
+            build/quality-gate-*.log
+          if-no-files-found: error
 
   ui:
     name: local UI smoke (headless Chromium)
@@ -107,7 +105,7 @@ jobs:
       - uses: actions/upload-artifact@v4
         with:
           name: converter-${{ matrix.os }}
-          path: results/converter_acceptance_1.0.0.json
+          path: results/converter_acceptance_1.0.1.json
 
   portable:
     name: Windows portable executable
@@ -124,9 +122,9 @@ jobs:
         with:
           name: robustband-windows-portable
           path: |
-            dist/robustband-1.0.0-windows-x64.zip
-            results/portable_build_1.0.0.json
-            results/portable_acceptance_1.0.0.json
+            dist/robustband-1.0.1-windows-x64.zip
+            results/portable_build_1.0.1.json
+            results/portable_acceptance_1.0.1.json
 
   distribution:
     name: offline wheel and source distribution
@@ -149,11 +147,11 @@ jobs:
       - name: Preserve the verified distribution artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: robustband-1.0.0-linux-distributions
+          name: robustband-1.0.1-linux-distributions
           path: |
-            dist/robustband-1.0.0-py3-none-any.whl
-            dist/robustband-1.0.0.tar.gz
-            results/distribution_check_1.0.0.json
+            dist/robustband-1.0.1-py3-none-any.whl
+            dist/robustband-1.0.1.tar.gz
+            results/distribution_check_1.0.1.json
             build/welcome-generalized.html
             build/welcome-professional.html
             docs/api/

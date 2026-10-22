@@ -138,8 +138,10 @@ The benchmark compares all serialized Band fields on the same 2,000 paired
 bootstrap samples, with the original `20261001` seed and all 80 configurations.
 The compilation cost is included in the accelerated elapsed time. Results and
 environment details are in `results/compiled_benchmark_2026-10-12.json`.
-The observed raw-text scoring time was **170.28 s**, versus **0.85 s** including
-compilation, or **200.19x** on this one local run. The SHA-256 digests of all
+The archived 2026-10-12 run used Python 3.13.14 on Windows 11. Its raw-text scoring
+time was **170.28 s**, versus **0.85 s** including compilation, or **200.19x** in
+that environment. Repeated timings depend on Python, hardware and cache state;
+the script verifies output equality and records the locally measured ratio. The SHA-256 digests of all
 2,000 serialized Band outputs match. The three existing bootstrap loops now use
 this snapshot API, and both existing verifiers pass. The main tooling certificate
 and E artifact are byte-identical after normalizing line endings. Gate-1 replay

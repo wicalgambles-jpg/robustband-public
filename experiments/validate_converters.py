@@ -14,6 +14,7 @@ sys.path.insert(0,str(ROOT))
 import numpy as np
 from examples import prepare_segmentation_npz as converter
 from robustband import __version__
+from robustband.storage import write_json_atomic
 from robustband.domains import audit_domain, verify_audit
 
 
@@ -97,7 +98,7 @@ def run():
              for p in (Path(__file__),ROOT/'examples/prepare_segmentation_npz.py')},
         'scope':'Synthetic converter acceptance checks; source arrays are disposable and no external dataset is published.'}
     target=ROOT/'results'/('converter_acceptance_%s.json'%__version__)
-    target.write_text(json.dumps(result,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
+    write_json_atomic(target, result)
     print('PASS: %d converter checks'%len(checked))
 
 

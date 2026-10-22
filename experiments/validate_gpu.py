@@ -5,6 +5,7 @@ Core auditing uses exact CPU arithmetic. This gate validates GPU-derived caches,
 conversion and audit replay against a separately implemented CPU count reference.
 """
 from hashlib import sha256
+from datetime import date
 import json
 from pathlib import Path
 import platform
@@ -18,6 +19,7 @@ import numpy as np
 import cupy as cp
 from examples.prepare_segmentation_npz import prepare
 from robustband import __version__
+from robustband.storage import write_json_atomic
 from robustband.domains import audit_domain, verify_audit
 
 
@@ -62,7 +64,7 @@ def run():
                 'exact_audit_equals_cpu':True,'replay_verified':True,'roundtrip_verified':manifest['roundtrip_verified'],
                 'exact_band':report['result']['exact_band']})
     name=device['name']; name=name.decode() if isinstance(name,bytes) else name
-    result={'schema':'robustband.gpu_interoperability/v1','version':__version__,'date':'2026-10-21',
+    result={'schema':'robustband.gpu_interoperability/v1','version':__version__,'date':date.today().isoformat(),
         'python':platform.python_version(),'cupy':cp.__version__,'numpy':np.__version__,'gpu':name,
         'cuda_runtime':cp.cuda.runtime.runtimeGetVersion(),'cuda_driver_api':cp.cuda.runtime.driverGetVersion(),
         'driver':subprocess.check_output(['nvidia-smi','--query-gpu=driver_version','--format=csv,noheader'],text=True).strip(),
@@ -70,7 +72,7 @@ def run():
         'source_sha256_lf':{str(p.relative_to(ROOT)).replace('\\','/'):sha256(p.read_bytes().replace(b'\r\n',b'\n')).hexdigest()
           for p in (Path(__file__),ROOT/'examples/prepare_segmentation_npz.py',ROOT/'robustband/convert.py',ROOT/'robustband/segmentation.py')},
         'scope':'Actual CUDA argmax and bincount on this GPU; synthetic integer caches, conversion and exact CPU audit replay. No training, inference benchmark or universal GPU support claim.'}
-    (ROOT/'results'/('gpu_interoperability_%s.json'%__version__)).write_text(json.dumps(result,indent=2)+'\n',encoding='utf-8')
+    write_json_atomic(ROOT/'results'/('gpu_interoperability_%s.json'%__version__), result)
     print('PASS: CUDA argmax/counts, NPZ conversion and exact CPU reference on '+name)
 
 

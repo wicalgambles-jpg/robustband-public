@@ -112,3 +112,31 @@ def test_unknown_manifest_schema_and_kind_are_rejected(tmp_path):
         {"id": "x", "kind": "unknown", "files": {}}]}), encoding="utf-8")
     with pytest.raises(ValueError, match="kind"):
         resource.load_sources(bad)
+
+
+def test_full_grid_is_invariant_to_checkout_newlines_and_detects_changed_content(tmp_path, monkeypatch):
+    """Provenance and the complete grid hash use the same normalized bytes."""
+    monkeypatch.setattr(resource, 'ROOT', tmp_path)
+    rows = [dict(sample_id='一', raw='7 then 42', gold='42', meta={'class':'x','len_bucket':'s'})]
+    data = (json.dumps(rows[0], ensure_ascii=False)+'\n').encode('utf-8')
+    sources = {'schema':'robustband.resource_sources/v1','benchmarks':[
+        {'id':'toy','kind':'demo_raw','files':{'a':'a.jsonl','b':'b.jsonl'}}]}
+    manifest = tmp_path/'manifest.json'
+    manifest_lf = (json.dumps(sources, indent=2)+'\n').encode('utf-8')
+    manifest.write_bytes(manifest_lf)
+    for filename in ('a.jsonl','b.jsonl'): (tmp_path/filename).write_bytes(data)
+    first = resource.analyze(manifest)
+    assert first['schema']=='robustband.resource_grid/v2'
+    assert first['files']['a.jsonl']['bytes_lf']==len(data)
+    assert 'bytes' not in first['files']['a.jsonl']
+    for filename in ('a.jsonl','b.jsonl'):
+        (tmp_path/filename).write_bytes(data.replace(b'\n',b'\r\n'))
+    manifest.write_bytes(manifest_lf.replace(b'\n',b'\r\n'))
+    assert resource.analyze(manifest)==first
+    changed = data.replace(b'7 then 42',b'7 then 41')
+    assert len(changed)==len(data)
+    (tmp_path/'a.jsonl').write_bytes(changed)
+    actual = resource.analyze(manifest)
+    assert actual['files']['a.jsonl']['bytes_lf']==first['files']['a.jsonl']['bytes_lf']
+    assert actual['files']['a.jsonl']['sha256_lf']!=first['files']['a.jsonl']['sha256_lf']
+    assert actual['grid_sha256']!=first['grid_sha256']

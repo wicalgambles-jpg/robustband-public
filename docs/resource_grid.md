@@ -22,11 +22,32 @@ any difference.
 
 ```bash
 python -S experiments/resource_grid.py                       # writes results/resource_grid_<version>.{json,html}
-python -S experiments/resource_grid.py --verify results/resource_grid_1.0.0.json
+python -S experiments/resource_grid.py --verify results/resource_grid_1.0.1.json
 ```
 
 The manifest is `experiments/resource_sources.json`: each benchmark names its files, and
 every file is hashed into the artifact so a later run cannot silently use different data.
+
+### Checkout-independent provenance (1.0.1)
+
+Schema `robustband.resource_grid/v2` records `sha256_lf` and `bytes_lf` from the
+same UTF-8 file bytes after CRLF→LF normalization. The complete receipt and
+`grid_sha256` are identical for LF and CRLF checkouts. Other byte changes remain
+visible to the hash, including edits that preserve the file length.
+
+```bash
+python -S experiments/check_resource_portability.py
+python submission/check_quality.py
+```
+
+The portability gate makes disposable LF and CRLF copies of every declared input
+and compares both complete grids with the committed receipt. CI runs the full
+release-quality gate on all nine OS/Python combinations.
+
+The historical v1 receipts paired a normalized hash with a physical `bytes`
+count. The 1.0.0 receipt was generated from CRLF data and fails strict replay on
+an LF checkout. Those historical receipts and the 1.0.0 tag are preserved; use
+the 1.0.1 receipt and v2 schema for portable replay.
 
 ## Current state (archive shipped with the repository)
 
