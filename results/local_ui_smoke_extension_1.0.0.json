@@ -42,7 +42,7 @@
   "independent_human_user": false,
   "source_sha256_lf": {
     "robustband/ui.html": "55c70087794b3819231e571ba1c970903c71453e077401ada94c0576cbbfdc66",
-    "experiments/ui_browser_smoke.cjs": "96c20821e763fc50be3b0d148360d614bb2af1a0cc9a2b88503592dbc44c9b26"
+    "experiments/ui_browser_smoke.cjs": "191da36f959060f624b811a28c4c9e774627e66b9a3c83b32d0f9a3a6c6032d1"
   },
   "screenshots": {
     "build/local-ui-extension-desktop.png": "9127101a0d3681ac5c97b93b076793c1b2ddec704015a591f3db19acb4dab731",

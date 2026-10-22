@@ -10,7 +10,7 @@ const sleep=ms=>new Promise(r=>setTimeout(r,ms));
 const assert=(ok,message)=>{if(!ok)throw new Error(message);};
 const sourceHash=file=>crypto.createHash('sha256').update(fs.readFileSync(file,'utf8').replace(/\r\n/g,'\n')).digest('hex');
 const hash=p=>crypto.createHash('sha256').update(fs.readFileSync(p)).digest('hex');
-const candidates=[process.env.ROBUSTBAND_BROWSER_PATH,'C:/Program Files (x86)/Microsoft/Edge/Application/msedge.exe','C:/Program Files/Microsoft/Edge/Application/msedge.exe','/usr/bin/microsoft-edge','/usr/bin/chromium','/usr/bin/google-chrome','/Applications/Microsoft Edge.app/Contents/MacOS/Microsoft Edge'];
+const candidates=[process.env.ROBUSTBAND_BROWSER_PATH,'C:/Program Files (x86)/Microsoft/Edge/Application/msedge.exe','C:/Program Files/Microsoft/Edge/Application/msedge.exe','/usr/bin/microsoft-edge','/usr/bin/google-chrome','/usr/bin/chromium','/Applications/Microsoft Edge.app/Contents/MacOS/Microsoft Edge'];
 const browserPath=candidates.find(p=>p&&fs.existsSync(p));
 assert(browserPath,'Set ROBUSTBAND_BROWSER_PATH to an installed Chromium browser.');
 const profile=fs.mkdtempSync(path.join(os.tmpdir(),'robustband-browser-'));

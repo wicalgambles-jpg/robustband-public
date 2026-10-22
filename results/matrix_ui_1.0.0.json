@@ -12,6 +12,6 @@
   "independent_human_user": false,
   "source_sha256_lf": {
     "robustband/matrix.html": "16a73ccbf5879443a6095a6300dfc488af17553e96fa4f5f6aa5db938997ba3c",
-    "experiments/matrix_browser_smoke.cjs": "92ad94120062a8366829e24d2852b244f88fa29b5c2d221d718b2108c5dc3567"
+    "experiments/matrix_browser_smoke.cjs": "ef42a3b09cacf56364d328e26f15545ff3ddb7f2c01ff41755a952d5e54f1ee1"
   }
 }

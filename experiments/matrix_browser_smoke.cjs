@@ -8,8 +8,8 @@ const assert = (ok, message) => { if (!ok) throw new Error(message); };
 const sourceHash = file => crypto.createHash('sha256').update(fs.readFileSync(file,'utf8').replace(/\r\n/g,'\n')).digest('hex');
 const hash = (file) => crypto.createHash('sha256').update(fs.readFileSync(file)).digest('hex');
 const candidates = [process.env.ROBUSTBAND_BROWSER_PATH, 'C:/Program Files (x86)/Microsoft/Edge/Application/msedge.exe',
-  'C:/Program Files/Microsoft/Edge/Application/msedge.exe', '/usr/bin/microsoft-edge', '/usr/bin/chromium',
-  '/usr/bin/google-chrome', '/Applications/Microsoft Edge.app/Contents/MacOS/Microsoft Edge'];
+  'C:/Program Files/Microsoft/Edge/Application/msedge.exe', '/usr/bin/microsoft-edge', '/usr/bin/google-chrome',
+  '/usr/bin/chromium', '/Applications/Microsoft Edge.app/Contents/MacOS/Microsoft Edge'];
 const browserPath = candidates.find((candidate) => candidate && fs.existsSync(candidate));
 assert(browserPath, 'Set ROBUSTBAND_BROWSER_PATH to an installed Chromium browser.');
 

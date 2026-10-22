@@ -54,6 +54,8 @@ jobs:
   ui:
     name: local UI smoke (headless Chromium)
     runs-on: ubuntu-latest
+    env:
+      ROBUSTBAND_BROWSER_PATH: /usr/bin/google-chrome
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5

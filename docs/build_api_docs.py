@@ -18,8 +18,10 @@ Exit codes
 2  the package could not be imported (the docs would be empty)
 """
 import importlib
+from html import escape
 import pathlib
 import pydoc
+import re
 import sys
 
 MODULES = [
@@ -106,7 +108,12 @@ def main(argv):
             print(f"[api-docs] skip {name}: {exc}", file=sys.stderr)
             continue
         page = out / f"{name}.html"
-        page.write_text(pydoc.html.document(mod, name), encoding="utf-8")
+        document = pydoc.html.document(mod, name)
+        relative = pathlib.Path(mod.__file__).resolve().relative_to(root).as_posix()
+        source_url = "https://github.com/wicalgambles-jpg/robustband-public/blob/main/" + relative
+        document = re.sub(r'<a href="file:[^"]*">.*?</a>',
+                          '<a href="'+source_url+'">'+escape(relative)+'</a>', document)
+        page.write_text(document, encoding="utf-8")
         written.append((name, page.name, page.stat().st_size))
 
     items = "\n".join(
