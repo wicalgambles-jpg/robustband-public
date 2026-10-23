@@ -27,7 +27,9 @@
     "template-to-upload next step",
     "actionable duplicate-ID guidance",
     "keyboard help dialog",
-    "drag-and-drop upload"
+    "drag-and-drop upload",
+    "task-specific rule cautions",
+    "median tie distinguished from reversal"
   ],
   "example_exact_band": [
     "-1",
@@ -36,24 +38,11 @@
   "script_exceptions": [],
   "independent_human_user": false,
   "source_sha256_lf": {
-    "robustband/ui.html": "cccfa203937fe1457aaefa8a1144fb368948f777eca1f62b69b34e062454f875",
-    "experiments/ui_browser_smoke.cjs": "57d1290e8453d82dce3f27b48a6ee3671ffec03638c6c3bcd5dbe9b31ef8b7c7"
+    "robustband/ui.html": "2724419302154a6530d7c876742c2221059d3f1b85aa36d0efe182151aaaf99c",
+    "experiments/ui_browser_smoke.cjs": "be2fabde80e6b4f2082e299aae031bf2e62f9d3a7ef6712236c8eb043d01ff79"
   },
   "screenshots": {
-    "build/local-ui-desktop.png": "045560fe048f0a386f94ad3f0f299376c84847acda8116805926d856bb381d38",
-    "build/local-ui-mobile.png": "f9e7dfc7277c1efbee0814dac0ed3278c9a4f5641b196307deaf3fc97e875761"
-  },
-  "standalone_preview": {
-    "filename": "WELCOME.html",
-    "sha256": "de4045b7f377f6d7e03a20c6ec55797068e646caf34f154488f1e44e03309552",
-    "http_requests": 0,
-    "checked": [
-      "file-open preview",
-      "exact saved examples",
-      "fixed preview settings",
-      "local-app setup instructions",
-      "no network requests",
-      "mobile width"
-    ]
+    "build/local-ui-desktop.png": "69914255a955f357a4b601caad2b678faba81c020599ae5100d674cb92d41059",
+    "build/local-ui-mobile.png": "51b28cde822dff0a633126aa03f7a575939609fcc95324f8116163b58f2c3abd"
   }
 }

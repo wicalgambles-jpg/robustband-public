@@ -1,0 +1,48 @@
+name: Real use case or first-use feedback
+description: Describe an actual task, rule choices and what happened.
+title: "[Use case] "
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Share only data you have permission to publish. A redacted report or short description is enough to start.
+        Stable outcomes and unchanged decisions are useful too. The detailed record is in docs/case_study_template.md.
+  - type: dropdown
+    id: kind
+    attributes:
+      label: What kind of evidence is this?
+      options:
+        - An actual task using my own results
+        - First-use trial on example data
+        - Technical/source review
+        - Maintainer reproduction or synthetic demonstration
+    validations:
+      required: true
+  - type: textarea
+    id: task
+    attributes:
+      label: What were you trying to decide?
+      description: Describe the task and your original plan before using the tool.
+    validations:
+      required: true
+  - type: textarea
+    id: rules
+    attributes:
+      label: Which rules did you choose, and why?
+      description: Include extraction, scoring, aggregation and whether choices were fixed before seeing rankings.
+    validations:
+      required: true
+  - type: textarea
+    id: experience
+    attributes:
+      label: What happened during use?
+      description: Version, installation route, steps, prior experience, help received and any confusion or failure.
+    validations:
+      required: true
+  - type: textarea
+    id: outcome
+    attributes:
+      label: What did you do with the result?
+      description: Record a changed or unchanged decision and the reason. An approved replay report or redacted example is welcome.
+    validations:
+      required: true

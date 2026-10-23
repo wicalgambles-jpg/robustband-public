@@ -40,6 +40,7 @@ MODULES = [
     "robustband.review_search",
     "robustband.compiled",
     "robustband.workflow",
+    "robustband.protocol_guidance",
     "robustband.audit_engine",
     "robustband.input_utils",
     "robustband.convert",

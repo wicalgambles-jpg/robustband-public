@@ -32,7 +32,9 @@
     "template-to-upload next step",
     "actionable duplicate-ID guidance",
     "keyboard help dialog",
-    "drag-and-drop upload"
+    "drag-and-drop upload",
+    "task-specific rule cautions",
+    "median tie distinguished from reversal"
   ],
   "example_exact_band": [
     "-1",
@@ -41,11 +43,11 @@
   "script_exceptions": [],
   "independent_human_user": false,
   "source_sha256_lf": {
-    "robustband/ui.html": "cccfa203937fe1457aaefa8a1144fb368948f777eca1f62b69b34e062454f875",
-    "experiments/ui_browser_smoke.cjs": "57d1290e8453d82dce3f27b48a6ee3671ffec03638c6c3bcd5dbe9b31ef8b7c7"
+    "robustband/ui.html": "2724419302154a6530d7c876742c2221059d3f1b85aa36d0efe182151aaaf99c",
+    "experiments/ui_browser_smoke.cjs": "be2fabde80e6b4f2082e299aae031bf2e62f9d3a7ef6712236c8eb043d01ff79"
   },
   "screenshots": {
-    "build/local-ui-extension-desktop.png": "137b3fcbb27f4dd8d05770f756b6504f6664d69bb8bd4d16dff5d715e602fe1d",
-    "build/local-ui-extension-mobile.png": "31f2fc94346c91cc44c8d81dfb6b224d752ee1894897fa4d4327fa7fd29b5054"
+    "build/local-ui-extension-desktop.png": "37c22e92d05e9fa788baac77984b243ebbf80bbbf5c4df029e2948ef99e89449",
+    "build/local-ui-extension-mobile.png": "2f17d8b43685f5dbe4029a7284f87ceacf60e7d03bd4aeb3d1f7370e9066bb9d"
   }
 }

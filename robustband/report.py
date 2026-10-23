@@ -8,6 +8,7 @@ import json
 from pathlib import Path
 
 from .report_style import _float, badge, band_svg, page, safe, table
+from .protocol_guidance import text_rule_cautions
 
 VERDICT_TONE = {"ROBUST": ("ok", "稳健 / robust"), "REFUTED": ("bad", "被否证 / refuted"),
                 "UNIDENTIFIABLE": ("warn", "结论随规则改变 / rule-sensitive")}
@@ -45,6 +46,11 @@ def render_html(report):
     labels = result.get("display_band", result["exact_band"])
     geometry = result.get("plot_band") or [_float(value) for value in result["exact_band"]]
     tone, tone_label = VERDICT_TONE.get(result["verdict"], ("neutral", result["verdict"]))
+    if report.get("schema") == "robustband.audit/v1":
+        if result["verdict"] == "UNIDENTIFIABLE" and not result["strict_sign_flip"]:
+            tone_label = "领先与打平并存 / lead and tie"
+        elif result["tie_count"] == result["n_protocols"]:
+            tone_label = "所选规则下全部打平 / tied under every declared rule"
     minimum, maximum = report["witnesses"]["minimum"], report["witnesses"]["maximum"]
 
     body = ("<div class='rh'><span class='mark'>r</span><span class='brand'>robustband</span>"
@@ -54,6 +60,13 @@ def render_html(report):
     body += ("<div class='hero'>" + badge(tone_label, tone) +
              "<div class='bandtext'>[" + safe(labels[0]) + ", " + safe(labels[1]) + "]</div>" +
              "<p class='lede'>" + safe(result["explanation"]) + "</p></div>")
+    if report.get("schema") == "robustband.audit/v1":
+        body += ("<div class='scope'><p>规则由使用者按任务声明；数量不代表合理性。"
+                 "精确复算校验计算一致性，参考答案、样本代表性与规则适用性需要另行核对。 / "
+                 "Users justify rules for their task. Replay checks computation; reference labels, "
+                 "sample representativeness and rule suitability require separate checks.</p><ul>" +
+                 "".join("<li>" + safe(note["message"]["zh"]) + " / " + safe(note["message"]["en"]) + "</li>"
+                         for note in text_rule_cautions(report["family"])) + "</ul></div>")
     body += band_svg(geometry[0], geometry[1], labels[0], labels[1],
                      title="规则范围 / Rule range",
                      positive_means="positive margins support A")

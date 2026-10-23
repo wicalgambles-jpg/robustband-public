@@ -60,16 +60,17 @@ the 1.0.1 receipt and v2 schema for portable replay.
 | R-B4 | recomputable from the recorded inputs | `--verify` passes | PASS |
 | R-B5 | decision change | not evaluated (no paired decision task) | — |
 
-**Why R-B3 fails is itself the finding.** The only paired archive has 10 items per
-benchmark. On 10 items each item is 0.1 of the score, and one protocol choice can move a
-score across the whole 0–1 range — for example `contains` accepts every output while
-`exact_match` accepts none. The pair margins here are therefore `0` or `1/10`, near-tied and
-never strictly reversed. The 1,319-item single-model archive shows a 0.4716 band, which is
-the effect this resource is meant to measure; it simply has no second model to pair with.
+The only paired archive has 10 items per benchmark. The observed pair margins
+are `0` or `1/10`; no strict reversal was observed. The 1,319-item archive has a
+single-model score width of 0.4716 and no second model to compare. These results
+show that the pipeline runs on the recorded inputs. They do not establish that
+small samples caused the absence of flips or that a larger archive will flip.
 
-Small archives coarsen widths and hide flips. A grid at publication scale needs full test
-sets and several models per benchmark; a 10-item review sample is pipeline evidence, not a
-population estimate.
+A larger study needs full test sets, multiple models and task-justified rules.
+Large widths caused by permissive scorers do not establish useful decision
+impact. A stable comparison is a valid outcome: retain negative results and
+avoid adding rules until a desired reversal appears. The historical R-B3 target
+describes a resource ambition, not a requirement for a valid user audit.
 
 ## Reaching publication scale
 

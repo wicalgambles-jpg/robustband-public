@@ -12,6 +12,11 @@ recorded metrics such as latency and accuracy.
 **中文速览**：把同一批样本的两组已有结果放在一起，看看谁领先、领先多少，以及换一种
 评分方式是否会改变结论。支持 AI 答案、分割计数和已有数值指标。
 
+**Status: Beta research software.** Automated replay and distribution checks are
+recorded. Decision impact and first-use usability need real user case studies.
+Choose task-justified rules before inspecting model rankings; use the
+[rule selection guide](docs/protocol_selection.md) and [case template](docs/case_study_template.md).
+
 **Main workflow / 主线**：paired audit（两组比较）→ adoption check（采用条件）→
 ranking audit（多模型名次）。**Experimental / 实验区**（不属于主线，证据为合成或冻结
 样本）：human-review planning（`robustband.review`）、compiled-score snapshots
@@ -167,7 +172,10 @@ Freeze an explicit family of scoring protocols
   agg    ∈ {micro, macro_class, macro_len, median}                        (4)
 ```
 
-⟹ **80 configurations** (the default scoring family: no generation).
+⟹ **80 configurations** (the historical library default: no generation).
+This enumerates registered choices, including permissive and information-losing
+rules. It is a sensitivity/stress family, not a recommendation of 80 suitable
+policies for a task. Declare a task-specific subset with its rationale.
 Whether each configuration is defensible for a particular benchmark must be assessed
 before interpreting the resulting band.
 
@@ -176,7 +184,7 @@ For a claim `K` (a rank claim `A > B`, or a score claim `A > τ`), evaluate the 
 
 | output | meaning |
 |---|---|
-| `delta = (min margin, max margin)` | the **band** of the effect across legal protocols |
+| `delta = (min margin, max margin)` | the **band** of the effect across declared protocols |
 | `verdict = UNIDENTIFIABLE` | `min ≤ 0 < max`: some configurations support a strict claim and others do not |
 | `stability_fraction` | fraction of the enumerated protocols under which the claim holds; not a probability over protocols |
 | `break_set` | configurations where the strict claim fails, including ties |
@@ -256,40 +264,15 @@ replication**. Numeric comparisons use exact finite decimal arithmetic. The froz
 most `1e-9`; `numeric_tol` uses its declared tolerance (default `1e-3`). Reported
 `Fraction` endpoints aggregate exactly. See [metric semantics](docs/metric_semantics.md).
 
-## The certificate (four bound layers)
+## Replay reports
 
-`demo/tooling_certificate.py` emits a single machine-readable JSON artifact
-(`results/tooling_certificate.json`, schema `robustband.tooling_certificate/v3`) that
-binds four layers:
+JSON reports bind the recorded inputs, declared rules and software sources to
+the computed result. Verification recomputes those fields. Reference labels,
+sampling and rule suitability have separate checks in the
+[selection guide](docs/protocol_selection.md).
 
-| layer | content |
-|---|---|
-| **L1** positive band | the δ-band, verdict, witnesses (C′ instrument output) |
-| **L2** negative module (E) | impossibility certificate + minimal counterexample + strongest counterexample + decision hooks D1/D2/D3 |
-| **L3** robustness | full-scale score band + paired bootstrap (`P(UNIDENTIFIABLE)`, `P(sign-flip)`) + leave-one-axis subfamilies |
-| **L4** certified endpoints | exact-`Fraction` band over the built-in metrics, duplication invariance |
-
-The certificate is **recomputed from hashed input files** (V-source, V0–V8) by
-`demo/verify_tooling_certificate.py`, which does **not** trust the artifact's own numbers —
-it checks every layer, including the 1319-item score band. The main score band is also
-checked with a separate reference implementation; bootstrap checks still share the engine.
-Input hashes normalize CRLF to LF so the same text verifies on Windows and Unix.
-Schema v3 records the floating summation profile: Python 3.9/3.11 use the
-sequential snapshot `results/tooling_certificate_sequential.json`; Python 3.12+
-uses the compensated snapshot `results/tooling_certificate.json`. The verifier
-detects the sum behavior and strictly replays the corresponding frozen artifact.
-Near-zero bootstrap margins differ between these profiles; see
-[the 1.0.1 evidence](docs/release_1.0.1.md). Exact rational endpoints are checked
-separately.
-The repository ships the frozen model outputs for rescoring; it does not currently pin
-the model revision and full generation environment needed to reproduce those outputs.
-Dataset and model attribution is recorded in `THIRD_PARTY_NOTICES.md`.
-
-```bash
-cd demo
-python tooling_certificate.py          # writes the runtime's matching certificate
-python verify_tooling_certificate.py   # re-derives V-source and V0..V8; prints [VERIFY PASS] (exit 0)
-```
+The optional multi-layer demo is documented in
+[tooling certificate replay](docs/tooling_certificate.md).
 
 ## Tests
 
@@ -360,7 +343,7 @@ claimed for them, and the review planner has no measured human-label saving on r
 - **Fragility resource prototype** (`experiments/resource_grid.py`): scores an archive of
   per-item outputs under the protocol family and records per-model bands, pair bands and
   per-protocol leaders, with `--verify`. The archive shipped here is small, so the scale and
-  ranking-flip gates **fail by design**; [the resource note](docs/resource_grid.md) records
+  ranking-flip gates **are not met**; [the resource note](docs/resource_grid.md) records
   the measured numbers and what a grid at publication scale requires.
 
 The [related-work and mechanism documentation](docs/review_mechanism.md) explain

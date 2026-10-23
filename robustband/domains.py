@@ -14,6 +14,7 @@ from . import workflow, segmentation, scores
 from .parsers import PARSE
 from .metrics import METRIC
 from .aggregate import AGG
+from .protocol_guidance import text_rule_cautions
 
 
 @dataclass(frozen=True)
@@ -135,6 +136,7 @@ text_labels = {
 for control in text_controls:
     for option in control["options"]:
         option["title"] = _labels(*text_labels[option["value"]])
+        option["cautions"] = text_rule_cautions({control["key"]: [option["value"]]})
 
 register_domain(AuditDomain("text", "robustband.audit/v1", ("csv", "jsonl"), workflow.load_paired,
     workflow.preview, workflow.analyze, workflow.verify_report,
