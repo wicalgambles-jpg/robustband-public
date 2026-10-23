@@ -1,5 +1,9 @@
 # First use: a local audit from your records to a report
 
+Before importing results, review the [rule selection guide](protocol_selection.md).
+The example's extraction, matching and aggregation choices illustrate the tool;
+record your task's rule rationale before inspecting the model comparison.
+
 Open `WELCOME.html` in your browser to explore the examples without installation.
 To calculate results from your own files, use the Windows portable ZIP or Python
 3.9 or later. The portable folder contains its own runtime: extract the entire ZIP,

@@ -51,6 +51,7 @@ async function main(){
   await evaluate('document.getElementById("example").click()');
   await until(()=>evaluate('last!==null && !busy'),'example audit');
   const example=await evaluate('last.report.result');
+  assert(await evaluate('document.getElementById("ruleCautions").textContent.includes("1,234")'),'Number formatting caution missing before comparison');
   assert(await evaluate('document.getElementById("verdictTitle").textContent===t("UNIDENTIFIABLE") && document.getElementById("dataSource").textContent===t("demo") && !document.getElementById("nextAction").hidden'),'Result or next step was not explained');
   assert(example.exact_band.join(',')==='-1,1'&&example.support_count===1&&example.n_protocols===2,'Hand-checkable example mismatch');
   assert(await evaluate('document.querySelector("input[value=macro_class]").disabled'),'Missing group was silently accepted');
@@ -64,6 +65,23 @@ async function main(){
   await until(()=>fs.existsSync(path.join(downloads,'report.json'))&&fs.existsSync(path.join(downloads,'report.html')),'report downloads');
   const downloaded=JSON.parse(fs.readFileSync(path.join(downloads,'report.json'),'utf8'));
   assert(downloaded.result.exact_band.join(',')==='-1,1','Downloaded report differs from displayed result');
+  // The reported 90%-vs-60% example has a lead and a median tie, no reversal.
+  const medianRows=Array.from({length:10},(_,i)=>({sample_id:'median-'+i,prompt:'Answer',gold:'42',output_a:i<9?'42':'0',output_b:i<6?'42':'0'}));
+  await installFile(medianRows.map(row=>JSON.stringify(row)).join('\n'),'median-case.jsonl');
+  await until(()=>evaluate('loaded!==null && !busy && loaded.n_items===10'),'median example upload');
+  await evaluate('document.querySelectorAll("input[name=parses]").forEach(e=>e.checked=e.value==="strict_exact");document.querySelectorAll("input[name=metrics]").forEach(e=>e.checked=e.value==="exact_match");document.querySelectorAll("input[name=aggs]").forEach(e=>e.checked=["micro","median"].includes(e.value));invalidate();document.getElementById("run").click()');
+  await until(()=>evaluate('last!==null && !busy'),'median comparison');
+  assert(await evaluate('last.report.result.exact_band.join(",")==="0,3/10" && !last.report.result.strict_sign_flip && last.report.result.reverse_count===0'),'Median case incorrectly reversed');
+  assert(await evaluate('/lead or a tie|领先.*打平/.test(document.getElementById("verdictTitle").textContent)'),'Tie-only sensitivity title missing');
+  assert(await evaluate('document.getElementById("ruleCautions").textContent.includes("60%") && !document.getElementById("ruleCautions").textContent.includes("142")'),'Cautions do not follow selected rules');
+  await evaluate('const containsInput=document.querySelector("input[value=contains]");containsInput.checked=true;containsInput.dispatchEvent(new Event("change"));');
+  assert(await evaluate('document.getElementById("ruleCautions").textContent.includes("142")'),'Substring caution missing');
+  await evaluate('document.getElementById("run").click()');
+  await until(()=>evaluate('last!==null && !busy'),'combined rule cautions');
+  await screenshot('build/local-ui-rule-guidance.png',1280,1000);
+  await evaluate('document.getElementById("example").click()');
+  await until(()=>evaluate('last!==null && !busy && last.report.result.n_items===1'),'restore text example');
+  guidedChecks.push('task-specific rule cautions','median tie distinguished from reversal');
   await evaluate('document.getElementById("useDataNext").click()');
   assert(await evaluate('loaded===null && last===null && !document.getElementById("workspace").hidden && document.getElementById("dataSource").textContent===t("demo")'),'Own-data transition kept an actionable demo result');
   await evaluate('document.getElementById("template").click()');
